@@ -1,0 +1,148 @@
+<div class="card card-color-men">
+    <div class="card-header">
+      <div class="person-photo"><img src="http://oi43.tinypic.com/2q07d06.jpg">
+      </div>
+      <h3 class="person-name">José Alfredo</h3>
+      <p class="comment-date">14 de Julho às 22:35 - Rio de Janeiro</p>
+    </div>
+    <div class="card-body">
+      <p class="comment-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac lobortis libero, sed porttitor nibh. Duis interdum nulla nec nisi iaculis vehicula. Cras ut augue est.</p>
+    </div>
+  </div>
+  
+  <div class="card card-color-women">
+    <div class="card-header">
+      <div class="person-photo"><img src="http://oi41.tinypic.com/28mnsw2.jpg">
+      </div>
+      <h3 class="person-name">Isadora Ribeiro</h3>
+      <p class="comment-date">15 de Julho às 09:02 - Belo Horizonte</p>
+    </div>
+    <div class="card-body">
+      <p class="comment-text">Pellentesque sollicitudin eget arcu at malesuada. Sed ligula tortor, consequat nec dui eget, consectetur condimentum magna. Nunc maximus dapibus leo, faucibus imperdiet risus egestas quis. Pellentesque volutpat nisi at vestibulum semper. Ut eget pretium urna, in cursus odio.</p>
+    </div>
+  </div>
+  
+  <div class="card card-color-undefined">
+    <div class="card-header">
+      <div class="person-photo"><img src="http://lists.monstersandcritics.com/wp-content/uploads/2014/10/Internet-impersonatio-silhouette.png">
+      </div>
+      <h3 class="person-name">Anônimo</h3>
+      <p class="comment-date">15 de Julho às 10:23</p>
+    </div>
+    <div class="card-body">
+      <p class="comment-text">Quisque tristique ex non nunc placerat, id vehicula turpis suscipit.</p>
+    </div>
+  </div>
+
+
+  /* reset */
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+/* body properties */
+body {
+  margin: 20px;
+  background: #EEEEEE;
+  font-family: sans-serif;
+  font-weight: 300;
+}
+
+/* card properties - variables */
+$card-magin: 20px;
+$card-width: 500px;
+$card-min-height: 120px;
+$card-radius: 5px;
+$card-box-shadow: 3px 3px 10px #ABABAB;
+
+/* card header properties - variables */
+$card-header-height: 80px;
+$card-header-border-radius: 5px 5px 0px 0px;
+$card-header-color: #FFFFFF;
+
+$card-person-photo-img-margin: 10px;
+$card-person-photo-img-float: left;
+$card-person-photo-img-width: 60px;
+$card-person-photo-img-height: 60px;
+$card-person-photo-img-radius: 50%;
+
+$card-person-name-padding-top: 18px;
+$card-person-name-font-size: 1.2em;
+$card-person-name-text-align: left;
+
+$card-comment-date-margin-top: -14px;
+$card-comment-date-font-size: 0.8em;
+$card-comment-date-color: rgba(255, 255, 255, 0.9);
+
+/* card body properties - variables */
+$card-body-margin-top: -15px;
+$card-body-bg: #FFFFFF;
+$card-body-color: #666666;
+
+$card-comment-padding: 30px;
+$card-comment-text-align: left;
+$card-comment-line-height: 20px;
+
+/*  modified components - variables */ 
+$card-women-color: #E91E63;
+$card-men-color: #2196F3;
+$card-undefined-color: #757575;
+
+/* Mixins */
+@mixin card-custom($nome, $color) {
+  .card-#{$nome} {
+    .card-header {
+      background: $color;
+    }
+  }
+}
+
+/* classes */
+.card {
+  margin: $card-magin;
+  width: $card-width;
+  min-height: $card-min-height;
+  border-radius: $card-radius;
+  box-shadow: $card-box-shadow;
+  .card-header {
+    height: $card-header-height;
+    border-radius: $card-header-border-radius;
+    color: $card-header-color;
+    .person-photo {
+      img {
+        margin: $card-person-photo-img-margin;
+        float: $card-person-photo-img-float;
+        width: $card-person-photo-img-width;
+        height: $card-person-photo-img-height;
+        border-radius: $card-person-photo-img-radius;
+      }
+    }
+    .person-name {
+      padding-top: $card-person-name-padding-top;
+      font-size: $card-person-name-font-size;
+      text-align: $card-person-name-text-align;
+    }
+    .comment-date {
+      margin-top: $card-comment-date-margin-top;
+      font-size: $card-comment-date-font-size;
+      color: $card-comment-date-color;
+    }
+  }
+  .card-body{
+    margin-top: $card-body-margin-top;
+    background: $card-body-bg;
+    color: $card-body-color;
+    .comment-text {
+      padding: $card-comment-padding;
+      text-align: $card-comment-text-align;
+      line-height: $card-comment-line-height;
+    }
+  }
+}
+
+/* includes */
+@include card-custom('color-women', $card-women-color);
+@include card-custom('color-men', $card-men-color);
+@include card-custom('color-undefined', $card-undefined-color);
