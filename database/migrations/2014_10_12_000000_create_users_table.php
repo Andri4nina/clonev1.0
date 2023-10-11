@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->string('pdp');
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -21,19 +22,20 @@ return new class extends Migration
             $table->char('status_user', 15)->default('hors-ligne');
             $table->char('theme_user', 10)->default('bleu');
             $table->char('mode_user', 10)->default('light');
-            $table->char('role_user', 10)->unique();
-            $table->datetime('date_deconnexion_Utilisateur')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->boolean('prvlg_creation_super_user')->default(false);
-            $table->boolean('prvlg_suppression_super_user')->default(false);
-            $table->boolean('prvlg_creation_user')->default(false);
-            $table->boolean('prvlg_suppression_user')->default(false);
-            $table->boolean('prvlg_approb_blog')->default(false);
-            $table->boolean('prvlg_publi_blog')->default(false);
-            $table->boolean('prvlg_creation')->default(false);
-            $table->boolean('prvlg_suppression')->default(false);
-            $table->boolean('prvlg_modification')->default(false);
-
-
+            $table->char('role_user', 50)->unique();
+            $table->char('tel_user', 25)->unique();
+            $table->boolean('prvlg_super_user')->default(false);
+            $table->boolean('prvlg_task')->default(false);
+            $table->boolean('prvlg_create_user')->default(false);
+            $table->boolean('prvlg_delete_user')->default(false);
+            $table->boolean('prvlg_update_user')->default(false);
+            $table->boolean('prvlg_membre')->default(false);
+            $table->boolean('prvlg_project')->default(false);
+            $table->boolean('prvlg_partenaire')->default(false);
+            $table->boolean('prvlg_create_blog')->default(false);
+            $table->boolean('prvlg_delete_blog')->default(false);
+            $table->boolean('prvlg_update_blog')->default(false);
+            $table->boolean('prvlg_approv_blog')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

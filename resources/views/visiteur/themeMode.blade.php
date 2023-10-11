@@ -1,10 +1,11 @@
 <!--style switch start-->
+
 <div class="style-switcher">
     <div class="style-switcher-toggler s-icon">
         <i class="fa fa-cog fa-spin" ></i>
     </div>
     <div class="day-night s-icon">
-        <i class="fa fa-moon-o "></i>
+        <i class="fa fa-moon "></i>
     </div>
     <h4>Theme Colors</h4>
     <div class="colors">
@@ -16,6 +17,7 @@
         
     </div>
 </div>
+
 
 <!--style switch start-->
 <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js') }}"></script>

@@ -1,4 +1,4 @@
-@if($paginator->hasPages())
+{{--  @if($paginator->hasPages())
 
 
 <div class="mb-4 mr-4 justify-between pagination">
@@ -42,4 +42,33 @@
 </div>
 
 
-@endif
+@endif  --}}
+
+
+
+<div class="flex gap-2">
+    <div class="pagination">
+        <i class="bx bx-chevrons-left"></i>
+    </div>
+
+    <div class="pagination">
+        <i class="bx bx-chevron-left"></i>
+    </div>
+
+
+    <div class="pagination">
+        <i>1</i>
+    </div>
+
+
+    <div class="pagination">
+        <i class="bx bx-chevron-right"></i>
+    </div>
+
+
+    <div class="pagination">
+        <i class="bx bx-chevrons-right"></i>
+    </div>
+
+
+</div>

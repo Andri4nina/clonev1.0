@@ -1,84 +1,110 @@
 @extends('layouts.app')
 
 @section('content')
-<main class="w-full max-w-4xl mt-20">
-    <section>
-        <form action="{{ route('partenaire.update',$partenaire->id) }}" method="post" enctype="multipart/form-data">
+<section class=" block w-10/12 mx-auto ">
+    <div class="relative usersection">
+        <h3 class="text-base pl-2 mb-5">Partenaires / Modification /@ {{ $partenaire->nom_partenaire }}</h3>
+        <form action="{{ route('partenaire.update') }}" method="POST" enctype="multipart/form-data">
             @csrf
+            <div class="flex max-w-5xl gap-2">
+                @if ($errors->any())
+                <script type="text/javascript">
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'bottom-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                          toast.addEventListener('mouseenter', Swal.stopTimer)
+                          toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                      })
+                      
+                      Toast.fire({
+                        icon: 'warning',
+                        title: 'Veuillez remplir les champs obligatoires'
+                      })
+                </script>
+                   
+                @endif 
+                <div class="bounceslideInFromLeft w-1/2 p-5 crud-card">
+                    <h4 class="mb-5 font-semibold">Nouveau partenaire</h4>
+                    <div class="mb-5  flex justify-center items-center input-field">
+                        <div class="relative w-1/12">
+                            <i class="absolute top-1/2 -translate-y-1/2 rotate-45 left-0 text-xl bx bxs-hand"></i>
+                            <i class="absolute top-1/2 -translate-y-1/2 right-0 -rotate-45  text-xl bx bxs-hand"></i>
+                        </div>
+                        <input type="text" name='partenaire-name' placeholder="Nom du partenaire" class="w-11/12   bg-none" value="{{$partenaire->nom_partenaire}}">
+                    </div>
 
-            @method('PUT')
-            <div class="flex justify-between items-center mb-5 ">
-                <h1 class="show_to_Top">Modifier Partenaire</h1>
-            </div>
-      
-            @if ($errors->any())
-            <script type="text/javascript">
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                      toast.addEventListener('mouseenter', Swal.stopTimer)
-                      toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                  })
+                    <div class="mb-5  flex justify-center items-center input-field">
+                        <div class="relative w-1/12">
+                            <i class="text-xl fa fa-puzzle-piece"></i>
+                        </div>
+                        <input type="text" name='partenaire-abr' placeholder="Abbreviation" class="w-11/12   bg-none" value="{{ $partenaire->abbrev_partenaire }}">
+                    </div>
+                    <div class="mb-5  flex justify-center items-center input-field">
+                        <div class=" w-1/12"><i class="bx bx-book-content text-xl"></i></div>
+                        <textarea name="partenaire-histo" id="" cols="30" rows="10" class="w-11/12 bg-none" placeholder="Historique">{{ $partenaire->histoire_partenaire }}</textarea>
+                    </div>
+
                   
-                  Toast.fire({
-                    icon: 'warning',
-                    title: 'Veuillez remplir les champs obligatoires'
-                  })
-            </script>
-               
-            @endif
+                    <div class="mb-5  flex justify-center items-center input-field">
+                        <div class=" w-1/12"><i class="text-base ">URL</i></div>
+                        <input type="text" name='partenaire-url' placeholder="Site officiel du partenaire" class="w-11/12  bg-none" value="{{ $partenaire->siteOff_partenaire }}">
+                    </div>
 
 
-
-            <div class="grid gap-5  card">
-               <div class="show_to_Left">
-                    <label class="text-lg font-bold">Nom du partenaire *</label>
-                    <input type="text" name="nom" value="{{ $partenaire->nom }}">
-                    <label class="text-lg font-bold">Abreviation</label>
-                    <input type="text" name="Abreviation" value="{{ $partenaire->abreviation }}">
-                    <label class="text-lg font-bold">Histoire</label>
-                    <textarea cols="10" rows="5" name="Histoire">{{ $partenaire->histoire }}</textarea>
-             
+                    <div class="mb-5  flex justify-center items-center input-field">
+                        <div class="w-1/12"><i class="text-2xl bx bx-calendar" ></i></div>
+                        <input type="date" name='partenaire-date'  class="w-11/12  bg-none" value='{{ $partenaire->date_relation_partenaire}}'>
+                    </div>
                 </div>
-               <div class="show_to_Right">
-                    <label class="text-lg font-bold">Logo</label>
-                    <img src="{{ asset('images/logo/'.$partenaire->logo)}}" alt="" class="w-full pb-5 h-52 img_couv" id="img_logo" />
-                    <input type="file" name="image" accept="images/*" onchange="showFile(event)" >
-                    <input type="hidden" name='hidden_logo_image' value="{{ $partenaire->logo }}">
-                     
-                
-                    <label class="text-lg font-bold">Url</label>
-                    <input type="text" name="url" value="{{$partenaire->url}}">
-                    
-               </div>
-            </div>
-            <div class="flex sm:float-right sm:mr-5 items-center mb-5 titlebar show_to_Right">
-                <input type="hidden" name="hidden_id" value='{{ $partenaire->id }}'>
-                <button class="bg-green-500 hover:bg-green-600 text-white">Enregistrer</button>
+
+                <div class="bounceslideInFromRight w-1/2 p-5 crud-card">
+                    <h4 class="mb-5 font-semibold">Logo</h4>
+                    <div class="relative mb-5 w-full h-64">
+                        <img src="{{ asset('images/pdp-partenaire/'.$partenaire->logo_partenaire) }}" alt="" class="object-contain w-full h-full partenaire-logo-preview">
+                    </div>
+                    <div class="">
+                        <input type="hidden" name='hidden_partenaire_logo' value="{{ $partenaire->logo_partenaire}}">
+                        <input type="file" name="partenaire-logo" id="">
+                    </div>
+                    <hr>
+                    <br>
+                    <br>  
+                    <input type="hidden" name="hidden_id" value='{{ $partenaire->id }}'>
+                    <button class="float-right mb-5 bg-green-500 hover:bg-green-600 text-white">Enregistrer</button>
+                </div>
+
             </div>
         </form>
-     
-    </section>
-</main>
+        <a href="{{ route('partenaire.index') }}" class="absolute -top-2 -left-10  "><i class="text-4xl bx bx-chevron-left"></i></a>
+    </div>  
+</section>
 
 
 <script>
-    function showFile(event){
-        var input = event.target;
-        var reader = new FileReader();
-
-        reader.onload = function (){
-            var dataURL =reader.result;
-            var output = document.getElementById('img_logo');
-            output.src = dataURL;
-        };
-
-        reader.readAsDataURL(input.files[0]);
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputFile = document.querySelector('input[name="partenaire-logo"]');
+        const logoImage = document.querySelector('.partenaire-logo-preview'); 
+    
+        inputFile.addEventListener('change', function() {
+            const selectedFile = this.files[0];
+            if (selectedFile) {
+                const reader = new FileReader();
+                reader.onload = function() {
+                    logoImage.src = reader.result;
+                }
+                reader.readAsDataURL(selectedFile);
+            }
+        });
+    });
+    
 </script>
+            
+
+
+
 @endsection

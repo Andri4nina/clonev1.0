@@ -1,13 +1,20 @@
 <?php
 
+use App\Http\Controllers\ArchiveController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\DashController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\MembersController;
+use App\Http\Controllers\ParametreController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\ViewsCounterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,11 +29,17 @@ use App\Http\Controllers\UserController;
 
 
 /* Routes pour le public */
-/* Route::get('/', function () {
-    return view('welcome');
-}); */
-
 Route::get('/', [PublicController::class, 'acceuil'])->name('public.acceuil');
+Route::get('/public/domain', [PublicController::class, 'domain'])->name('public.domain');
+Route::get('/public/project', [PublicController::class, 'project'])->name('public.project');
+Route::get('/public/about', [PublicController::class, 'about'])->name('public.about');
+Route::get('/public/don', [PublicController::class, 'don'])->name('public.don');
+
+/* Route::get('/public/comment{id}', [PublicController::class,'CommentPubliZone'])->name('public.comment');
+Route::post('/public/', [CommentController::class,'store'])->name('publicComment.store'); */
+
+
+
 
 
 
@@ -35,31 +48,93 @@ Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::delete('/logout', [AuthController::class, 'logout'])->name('auth.logout')->middleware('cache.no-cache');
 Route::post('/dologin', [AuthController::class, 'doLogin'])->name('auth.dologin');
 
+Route::get('/ajouter-vue', [ViewsCounterController::class, 'ajouter_vue']);
+Route::get('/nombre-vue', [ViewsCounterController::class, 'nombre_vue']);
+
+
 
 /* Route pour le dashboard */
-Route::middleware(['auth'])->get('/dashboard', [DashController::class, 'index'])->name('dashboard.index')->middleware('auth');
+Route::middleware(['auth'])->get('/dashboard', [DashController::class, 'index'])->name('dashboard.index'); 
 
 /* Route pour les blogs */
-Route::middleware(['auth'])->group(function () {
+/* Route::middleware(['auth'])->group(function () {
     Route::resource('publication', PublicationController::class);
     Route::post('/publication', [PublicationController::class, 'store'])->name('publication.store');
     Route::post('/publication/approved/{id}', [PublicationController::class,'approved'])->name('publication.approved'); 
     Route::put('/publication/publish/{id}', [PublicationController::class, 'publish'])->name('publication.publish');
+    /* Suppression des commentaires sur les publications */
+     /* Route::delete('/comment/{id}',[CommentController::class,'DelCom'])->name('Comment.destroy');
+}); */
 
-});
-
-/* Route pour les utilisateurs */
 Route::middleware(['auth'])->group(function () {
-    Route::resource('utilisateur', UserController::class);
-    Route::post('/utilisateur/mode', [UserController::class, 'mode'])->name('utilisateur.mode');
-    Route::post('/utilisateur/theme', [UserController::class, 'theme'])->name('utilisateur.theme');
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/creation', [BlogController::class, 'create'])->name('blog.create');
+Route::get('/blog/modif{id}cation', [BlogController::class, 'edit'])->name('blog.edit');
+Route::get('/blog/cont{id}nu', [BlogController::class, 'show'])->name('blog.show');
+Route::post('/blog', [BlogController::class, 'store'])->name('blog.store');
+Route::post('/blog/update', [BlogController::class, 'update'])->name('blog.update');
+Route::delete('/blog/{id}', [BlogController::class,'destroy'])->name('blog.destroy');
 });
-
 
 /* Route pour les partenaires */
 Route::middleware(['auth'])->group(function () {
-    Route::resource('partenaire', PartController::class);
-    Route::post('/partenaire/approved/{id}', [PartController::class,'approved'])->name('partenaire.approved'); 
-    Route::put('/partenaire/publish/{id}', [PartController::class, 'publish'])->name('partenaire.publish');
+Route::get('/partenaire', [PartController::class,'index'])->name('partenaire.index');
+Route::get('/partenaire/creation', [PartController::class,'create'])->name('partenaire.create');
+Route::get('/partenaire/modif{id}cation', [PartController::class,'edit'])->name('partenaire.edit');
+Route::get('/partenaire/cont{id}nu', [PartController::class,'show'])->name('partenaire.show');
+Route::post('/partenaire/store', [PartController::class,'store'])->name('partenaire.store');
+Route::delete('/partenaire/{id}', [PartController::class,'destroy'])->name('partenaire.destroy');
+Route::post('/partenaire/update', [PartController::class,'update'])->name('partenaire.update');
+});
 
+
+/* Route pour les project */
+Route::middleware(['auth'])->group(function () {
+Route::get('/project', [ProjectController::class,'index'])->name('project.index');
+Route::get('/project/creation', [ProjectController::class,'create'])->name('project.create');
+Route::get('/project/modification', [ProjectController::class,'edit'])->name('project.edit');
+Route::get('/project/contenu', [ProjectController::class,'show'])->name('project.show');
+});
+
+/* Route pour les membres */
+Route::middleware(['auth'])->group(function () {
+Route::get('/membre', [MembersController::class,'index'])->name('membre.index');
+Route::get('/membre/creation', [MembersController::class,'create'])->name('membre.create');
+Route::get('/membre/modif{id}cation', [MembersController::class,'edit'])->name('membre.edit');
+Route::post('/membre/store', [MembersController::class,'store'])->name('membre.store');
+Route::post('/membre', [MembersController::class,'update'])->name('membre.update');
+Route::delete('/membre/{id}', [MembersController::class,'destroy'])->name('membre.destroy');
+});
+
+
+/* Route pour les utilisateurs */
+Route::middleware(['auth'])->group(function () {
+Route::get('/utilisateur', [UserController::class, 'index'])->name('utilisateur.index');
+Route::get('/utilisateur/creation', [UserController::class, 'create'])->name('utilisateur.create');
+Route::get('/utilisateur/modif{id}cation', [UserController::class, 'edit'])->name('utilisateur.edit');
+Route::get('/utilisateur/profil', [UserController::class, 'profil'])->name('utilisateur.profil');
+Route::post('/utilisateur/store', [UserController::class,'store'])->name('utilisateur.store');
+Route::post('/utilisateur', [UserController::class,'update'])->name('utilisateur.update');
+Route::delete('/utilisateur/{id}', [UserController::class,'destroy'])->name('utilisateur.destroy');
+Route::post('/utilisateur/mode', [UserController::class, 'mode'])->name('utilisateur.mode');
+Route::post('/utilisateur/theme', [UserController::class, 'theme'])->name('utilisateur.theme');
+});
+
+
+
+/* Route pour les taches */
+Route::middleware(['auth'])->group(function () {
+Route::get('/tache', [TaskController::class, 'index'])->name('tache.index');
+});
+
+
+/* Route pour les Messages */
+
+/* Route pour les archive */
+Route::middleware(['auth'])->group(function () {
+Route::get('/archive', [ArchiveController::class, 'index'])->name('archive.index');
+});
+/* Route pour les parametre */
+Route::middleware(['auth'])->group(function () {
+Route::get('/parametre', [ParametreController::class, 'index'])->name('parametre.index');
 });

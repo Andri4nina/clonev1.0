@@ -1,220 +1,253 @@
-<aside class="block fixed top-0 bottom-0 w-full overflow-y-auto p-0  shadow-none left-0 z-50 transition-all ease-in-out ml-4 mx-4 aside" id="aside_menu">
-  {{--  header navbar  --}}
-  <div class="sticky top-0 left-0 block px-6 pt-8  z-50 whitespace-nowrap sidebar_header ">
-    <a class="flex navbar-brand m-0" href="" target="_blank">
-      <img src="{{asset( 'images/Logo-MEH.png') }}" class="navbar-brand h-16" alt="main_logo">
-      <span class="ml-3 font-semibold">MEH <br> <small>Ministere de l'energie et de <br> l'Hydrocarbure</small></span>
-    </a>
-    <hr>
-  </div>
+<nav class=" w-full h-10 fixed top-0 left-0">
+  <div class="flex gap-10 justify-center items-center mt-5 mr-5 float-right usercontent">
 
-
-  {{--  body scrollable  --}}
-  <div class="block overflow-hidden w-auto -translate-y-6  sidenav_body ">
-    <ul class="flex-column ">
-        <li class="w-full nav_item">
-            <a href="{{  route('dashboard.index') }}" class="flex items-center whitespace-nowrap py-2 mx-0 my-4 text-sm nav_link ">
-              <div class="relative rounded-lg w-8 h-8 icon_shape">
-                <i class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center items-center fa fa-th-large" aria-hidden="true"></i>
-              </div>
-              <span class="pl-3">
-                    Tableau de bord
-              </span>
-            </a>
-        </li>
-
-        <li class="w-full nav_item">
-          <a href="{{  route('publication.index') }}" class="flex items-center whitespace-nowrap py-2 mx-0 my-4 text-sm nav_link ">
-            <div class="relative rounded-lg w-8 h-8 icon_shape">
-              <i class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center items-center fa fa-blog" aria-hidden="true"></i>   
-            </div>
-            <span class="pl-3">
-                Gestion des blogs
-            </span>
-          </a>
-        </li>
-
-        <li class="w-full nav_item">
-          <a href="{{  route('utilisateur.index') }}" class="flex items-center whitespace-nowrap py-2 mx-0 my-4 text-sm nav_link ">
-            <div class="relative rounded-lg w-8 h-8 icon_shape">
-              <i class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center items-center fa fa-users" aria-hidden="true"></i>
-            </div>
-            <span class="pl-3 ">
-                Gestion des utilisateurs
-            </span>
-          </a>
-        </li>
-
-
-
-        <li class="w-full nav_item">
-          <a href="{{ route('partenaire.index') }}" class="flex items-center whitespace-nowrap py-2 mx-0 my-4 text-sm nav_link ">
-            <div class="relative rounded-lg w-8 h-8 icon_shape">
-              <i class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center items-center fa fa-users-rectangle aria-hidden="true"></i>
-            </div>
-            <span class="pl-3">
-                Gestion des partenaires
-            </span>
-          </a>
-        </li>
-
-        <hr>
-
-        <li class="w-full nav_item">
-          <form action=" {{ route('utilisateur.mode') }} " method="post">
-            @csrf 
-            <button class="border-none -translate-x-4 flex items-center whitespace-nowrap py-2 mx-0 my-4 text-sm " type="submit">
-              <div class="relative rounded-lg w-8 h-8 icon_shape">
-                <input type="hidden" name="hidden_mode" value='{{\Illuminate\Support\Facades\Auth::user()->mode_user }}'>
-                <input type="hidden" name="hidden_id" value='{{\Illuminate\Support\Facades\Auth::user()->id }}'>
-                <i class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center items-center fa fa-sun" aria-hidden="true"></i>
-              </div>
-              <span class="pl-3">
-                  Mode
-              </span>
-            </button>
-          </form>
-          
-        </li>
-
-
-        <li class="w-full nav_item relative">
-            <button class="border-none -translate-x-4 flex items-center whitespace-nowrap py-2 mx-0 my-4 text-sm " onclick="show_style()">
-              <div class="relative rounded-lg w-8 h-8 icon_shape">
-                <i class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center items-center fa fa-palette" aria-hidden="true"></i>
-              </div>
-              <span class="pl-3">
-                  Theme
-              </span>
-            </button>
-
-
-            <div class="show_style" id='show_style'>
-              <form action="{{ route('utilisateur.theme') }}" method='post'>
-                @csrf
-                <div class="theme_style">
-                 <input type="hidden" name="hidden_id" value='{{\Illuminate\Support\Facades\Auth::user()->id }}'>
-               
-                  <button id="btn_bleu" type="submit" name="hidden_theme" value='bleu'>
-                  </button>
-                  <button id="btn_rouge" type="submit"  name="hidden_theme" value='rouge'>
-                  </button>
-                  <button id="btn_vert" type="submit" name="hidden_theme" value='vert'>
-                  </button>
-                  <button id="btn_rose" type="submit" name="hidden_theme" value='rose'>
-                  </button>
-                  <button id="btn_jaune" type="submit"  name="hidden_theme" value='jaune'>
-                  </button>
-                </div>
-              </form>
-            </div>
-        </li>
-
-        <hr>
-
-
-        <li class="w-full nav_item">
-            <a href="#tableaudebord" class="flex items-center whitespace-nowrap py-2 mx-0 my-4 text-sm nav_link ">
-              <div class="relative rounded-lg w-8 h-8 icon_shape">
-                <i class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center items-center fa fa-cog " aria-hidden="true"></i>
-              </div>
-              <span class="pl-3">
-                  Parametre
-              </span>
-            </a>
-        </li>
-
-
-        <li class="w-full nav_item">
-            @auth
-            <form action="{{ route('auth.logout') }}" method="post">
-            @method('delete')
-            @csrf
-            <button id="logoutButton" class="border-none flex items-center whitespace-nowrap py-2 -translate-x-4 mx-0 my-4 text-sm  ">
-              <div class="relative rounded-lg w-8 h-8 icon_shape">
-                <i class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center items-center fa fa-sign-out" aria-hidden="true"></i>
-          
-              </div>
-              <span class="pl-3">
-                  Se Deconnecter
-              </span>
-            </button>
-          </form>
-          @endauth
-
-        </li>
-
-
-    </ul>
-  </div>
-
-</aside> 
-
-
-<nav class="show_to_Top sticky top-0 w-full">
-  <div class="flex justify-end mr-5">
-    <p class="text-right font-extrabold text-lg pr-4">
-      {{\Illuminate\Support\Facades\Auth::user()->name }} <br> <small class="font-normal">  {{\Illuminate\Support\Facades\Auth::user()->role_user }}</small>
-   </p>
-     <button class="border-none -translate-y-3 menu_resp w-5 p-0" id="menu_resp" onclick="active_menu()">
-        <div class="relative burger_line" id="burger_Menu"></div>
-     </button>
-  </div>
-  <script>
+      <div class=" flex gap-2 justify-center items-center text-sm font-bold ">
+        <div>
+          {{\Illuminate\Support\Facades\Auth::user()->name }} 
+        </div>
+        <div>
+          <div class="bg-green-600 w-3 h-3 rounded-full userstatus"></div>
+        </div>
+       
+      </div>
     
-    var aside_menu=document.getElementById('aside_menu')
-    var burger_Menu=document.getElementById('burger_Menu')
-    function active_menu(){
-      burger_Menu.classList.toggle('active');
-      aside_menu.classList.toggle('show_menu');
-    }
-  </script>
-
-
-  <script>
-    function show_style(){
-      document.getElementById('show_style').classList.toggle('active')
-    }
-  </script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const navLinks = document.querySelectorAll('.nav_link');
-      const storageKey = 'activeLink';
-  
-      if (localStorage.getItem(storageKey) === null) {
-        localStorage.setItem(storageKey, '0');
-      }
-  
-      const lastActiveIndex = parseInt(localStorage.getItem(storageKey));
-      if (!isNaN(lastActiveIndex) && lastActiveIndex >= 0 && lastActiveIndex < navLinks.length) {
-        navLinks[lastActiveIndex].classList.add('active');
-      }
-  
-      navLinks.forEach((link, index) => {
-        link.addEventListener('click', function() {
-          navLinks.forEach(link => link.classList.remove('active'));
-          this.classList.add('active');
-          localStorage.setItem(storageKey, index.toString());
-        });
-      });
-  
-      const logoutButton = document.getElementById('logoutButton');
-      if (logoutButton) {
-        logoutButton.addEventListener('click', function() {
-          localStorage.clear();
-          form.submit();
-        });
-      }
-  
-
-  
-    });
-  </script>
-  
-  
-  
-  
-  
-  
+      <div class="bg-blue-600 w-10 h-10 rounded-full overflow-hidden">
+        <img src="{{ asset('images/pdp/' . Illuminate\Support\Facades\Auth::user()->pdp) }}" alt="" class="w-full h-full object-cover">
+      </div>
+  </div>
 </nav>
+
+<aside class="fixed top-0 left-0  min-h-screen">
+  <div class="fixed top-0 left-0 p-6 flex justify-center items-center gap-2">
+    <div class="w-10 h-10 bg-red-500">
+      <img src="" alt="logo" class="w-full h-full">
+    </div>
+    <div>
+      <h3 class="text-base font-extrabold text-center ">Hope for a future <br>
+        <small>-Madagascar-</small>
+        </h3> 
+    </div>
+  </div>
+
+  <div class="mt-36 h-full">
+      <div class="overflow-hidden h-5/6">
+          <ul class="overflow-y-scroll scrollbar-hidden-y h-screen pb-48">
+            <li class="px-5 menu-item active">
+              <a href="{{ route('dashboard.index') }}" class="flex gap-3 items-center px-2 py-5 text-sm menu-link">
+                <i class="text-2xl menu-icon tf-icons bx bxs-home-circle"></i>
+                <div class="text-sm">Tableau de bords</div>
+              </a>
+            </li>
+            <li class="px-5 menu-item">
+              <a href="{{ route('blog.index') }}" class="flex gap-3 items-center px-2 py-5 text-sm menu-link">
+                <i class="text-2xl menu-icon tf-icons fas fa-feather-alt"></i>
+                <div class="text-sm">Gestion de blog</div>
+              </a>
+            </li>
+
+            <li class="px-5 menu-item">
+              <a href="{{ route('partenaire.index') }}" class="flex gap-3 items-center px-2 py-5 text-sm menu-link">
+                <i class="text-2xl menu-icon tf-icons fa fa-handshake"></i>
+                <div class="text-sm">Gestion de partenaires</div>
+              </a>
+            </li>
+            <li class="px-5 menu-item">
+              <a href="{{ route('project.index') }}" class="flex gap-3 items-center px-2 py-5 text-sm menu-link">
+                <i class="text-2xl menu-icon tf-icons fas fa-cogs "></i>
+                <div class="text-sm">Gestion de project</div>
+              </a>
+            </li>
+
+            <li class="px-5 menu-item">
+              <a href="{{ route('membre.index') }}" class="flex gap-3 items-center px-2 py-5 text-sm menu-link">
+                <i class="text-2xl menu-icon tf-icons bx bx-group "></i>
+                <div class="text-sm">Gestion de membres</div>
+              </a>
+            </li>
+
+            <br>
+            <hr>
+            <br>
+            <li class="px-5 menu-item">
+              <a href="{{ route('utilisateur.index') }}" class="flex gap-3 items-center px-2 py-5 text-sm menu-link">
+                <i class="text-2xl menu-icon tf-icons bx bx-user-circle "></i>
+                <div class="text-sm">Utilisateurs</div>
+              </a>
+            </li>
+            <li class="px-5 menu-item">
+              <a href="{{ route('tache.index') }}" class="flex gap-3 items-center px-2 py-5 text-sm menu-link">
+                <i class="text-2xl menu-icon tf-icons bx bx-task"></i>
+                <div class="text-sm">Taches</div>
+              </a>
+            </li>
+            <li class="px-5 menu-item">
+              <a href="#publication" class="relative flex gap-3 items-center px-2 py-5 text-sm menu-link">
+                <i class="text-2xl menu-icon tf-icons bx bx-message-add"></i>
+                <div class="text-sm">Message</div>
+                <span class="text-white text-xs absolute right-2 bg-red-600 h-5 w-5 text-center rounded-full">25</span>
+              </a>
+            </li>
+            <li class="px-5 menu-item">
+              <a href="##" class="flex gap-3 items-center px-2 py-5 text-sm menu-link">
+                <i class="text-2xl menu-icon tf-icons bx bx-history"></i>
+                <div class="text-sm">Historique</div>
+              </a>
+            </li>
+            <li class="px-5 menu-item">
+              <a href="##" class="flex gap-3 items-center px-2 py-5 text-sm menu-link">
+                <i class="text-2xl menu-icon tf-icons bx bxs-image"></i>
+                <div class="text-sm">Gallerie</div>
+              </a>
+            </li>
+            <li class="px-5 menu-item">
+              <a href="{{ route('archive.index') }}" class="relative flex gap-3 items-center px-2 py-5 text-sm menu-link">
+                <i class="text-2xl menu-icon tf-icons bx bxs-box"></i>
+                <div class="text-sm">Archive</div>
+              </a>
+            </li>
+          
+            <br>
+            <hr>
+            <br>
+            <li class="px-5 ">
+              <span class="cursor-pointer mode flex gap-3 items-center px-2 py-5 text-sm menu-link">
+                <i class="text-blue-600 text-2xl menu-icon tf-icons bx bx-moon"></i>
+                <div class="text-sm">Mode</div>
+              </span>
+            </li>
+
+
+            <li class="relative px-5 ">
+              <span onclick="changeTheme()" class="cursor-pointer flex gap-3 items-center px-2 py-5 text-sm menu-link">
+                <i class="text-2xl menu-icon tf-icons bx bx-palette"></i>
+                <div class="text-sm">Theme</div>
+              </span>
+              <div class="pallete">
+                  <div class=" grid grid-cols-3 gap-2 pallete-container">
+                      <div class="colors" id="bleu"></div>
+                      <div class="colors" id="rouge"></div>
+                      <div class="colors" id="vert"></div>
+                      <div class="colors" id="jaune"></div>
+                      <div class="colors" id="rose"></div>
+                  </div>
+              </div>
+            </li>
+            <li class="px-5 menu-item">
+              <a href="{{ route('parametre.index') }}" class="flex gap-3 items-center px-2 py-5 text-sm menu-link">
+                <i class="text-2xl menu-icon tf-icons bx bx-cog"></i>
+                <div class="text-sm">Parametre</div>
+              </a>
+            </li>
+          
+          
+            <br>
+            <hr>
+            <br>
+            <li class="px-5 menu-item">
+              @auth
+                <form action="{{ route('auth.logout') }}" method="POST">
+                  @method('delete')
+                  @csrf
+                  <button href="#deconnection" id="logoutButton" class="flex gap-3 items-center px-2 py-5 text-sm menu-link">
+                    <i class="text-2xl menu-icon tf-icons bx bx-log-out"></i>
+                    <div class="text-sm">Deconnexion</div>
+                  </button>
+                </form>
+              @endauth
+            </li>
+          </ul>
+      </div>
+      
+  </div>
+
+<script>
+  const palette = document.querySelector(".pallete");
+
+  function changeTheme() {
+    palette.classList.toggle('active');
+  }
+</script>
+<script>
+  const mode = document.querySelector('.mode');
+  const modeIcon = document.querySelector('.mode i');
+  mode.addEventListener('click', () => {
+  
+    document.body.classList.toggle('dark');
+  
+    if (document.body.classList.contains('dark')) {
+      modeIcon.classList.add('bx-moon');
+      modeIcon.classList.remove('bx-sun');
+      modeIcon.classList.add('text-blue-600');
+      modeIcon.classList.remove('text-yellow-400');
+      localStorage.setItem('mode_user', 'dark');
+    } else {
+      localStorage.setItem('mode_user', 'light');
+      modeIcon.classList.add('bx-sun');
+      modeIcon.classList.remove('bx-moon');
+      modeIcon.classList.remove('text-blue-600');
+      modeIcon.classList.add('text-yellow-400');
+    }
+  });
+</script>
+
+
+<script>
+const colors = document.querySelectorAll('.pallete .colors');
+
+colors.forEach(color => {
+  color.addEventListener('click', () => {
+
+    const colorID = color.id;
+
+    
+    document.body.classList.remove('bleu', 'rouge', 'vert', 'jaune', 'rose');
+    document.body.classList.add(colorID);
+  });
+});
+
+</script>
+
+ <script>
+          // Récupérer les valeurs mode_user et theme_user
+          const modeUser = "{{ \Illuminate\Support\Facades\Auth::user()->mode_user }}";
+          const themeUser = "{{ \Illuminate\Support\Facades\Auth::user()->theme_user }}";
+      
+          // Stocker les valeurs dans le localStorage
+          localStorage.setItem('mode_user', modeUser);
+          localStorage.setItem('theme_user', themeUser);
+      </script>
+      <script>
+        
+        window.addEventListener('DOMContentLoaded', () => {
+          const mode = document.querySelector('.mode');
+          const modeIcon = document.querySelector('.mode i');
+      
+   
+          const storedMode = localStorage.getItem('mode_user');
+          const storedTheme = localStorage.getItem('theme_user');
+      
+    
+          document.body.classList.add(storedTheme);
+      
+          if (storedMode === 'dark') {
+            document.body.classList.add('dark');
+            modeIcon.classList.add('bx-moon');
+            modeIcon.classList.remove('bx-sun');
+            modeIcon.classList.add('text-blue-600');
+            modeIcon.classList.remove('text-yellow-400');
+          } else {
+            modeIcon.classList.add('bx-sun');
+            modeIcon.classList.remove('bx-moon');
+            modeIcon.classList.remove('text-blue-600');
+            modeIcon.classList.add('text-yellow-400');
+          }
+      
+          
+        });
+      </script>
+
+
+</aside>
+
+
+

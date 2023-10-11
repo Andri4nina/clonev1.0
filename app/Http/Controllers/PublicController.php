@@ -1,36 +1,106 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Carbon\Carbon; 
 use App\Models\Partenaire;
 use App\Models\publication;
+use App\Models\Commentaire;
 use Illuminate\Http\Request;
 
 class PublicController extends Controller
 {
-    public function acceuil(Request $request){
-        $keyword = $request->get('search');
-        $perPagePubli = 3;
-        if (!empty($keyword)) {
-            $publication = publication::select('publications.*')
-                ->where("titre_publi", "LIKE", "%$keyword%")
-                ->orWhere("status_publi", "LIKE", "Publier")
-                ->orderBy('publications.created_at', 'desc')
-                ->paginate($perPagePubli);
-        } else {
-            $publication = Publication::select('publications.*')
-                ->where("status_publi", "LIKE", "Publier")
-                ->orderBy('publications.created_at', 'desc')
-                ->paginate($perPagePubli);
-        }
-        $partenaire = Partenaire::select('*')
-        ->where("status_part", "LIKE", "Publier")
-        ->limit(3)
-        ->orderBy('created_at', 'desc')
-        ->get();
-        return view('visiteur.pages.acceuil', [
-            'publication' => $publication,
-            'partenaire' => $partenaire
-        ])->with('i', ($request->input('page', 1) - 1) * 5);
+    protected $viewsCounterController;
+
+    public function __construct(ViewsCounterController $viewsCounterController)
+    {
+        $this->viewsCounterController = $viewsCounterController;
     }
+    public function acceuil(Request $request){
+      
+        $this->viewsCounterController->ajouter_vue();
+
+    
+        return view('visiteur.pages.acceuil');
+    }
+
+
+    public function domain(Request $request)
+    {  
+        return view('visiteur.pages.domain');
+    } 
+
+    public function project(Request $request)
+    {  
+        return view('visiteur.pages.project');
+    } 
+
+    public function about(Request $request)
+    {  
+        return view('visiteur.pages.about');
+    } 
+
+    public function don(Request $request)
+    {  
+        return view('visiteur.pages.don');
+    } 
+
+
+
+
+
+
+
+
+
+
+
+
+    public function CommentPubliZone($id){
+        return view('visiteur.pages.commentZone');
+    }
+     
+    
+    public function Reportage(){
+        return view('visiteur.pages.reportage');
+    }
+
+    public function History(){
+        return view('visiteur.pages.history');
+    }
+
    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+ 

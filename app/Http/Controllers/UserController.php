@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\publication;
 use App\Models\User;
+use Illuminate\Foundation\Auth\User as AuthUser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -13,104 +14,141 @@ class UserController extends Controller
         $keyword = $request->get('search');
         $perPage = 10;
         if (!empty($keyword)) {
-            $utilisateur = User::select('users.id','users.name','users.email','users.status_user','users.role_user')
-                ->selectRaw('COUNT(publications.id) AS total_publications')
-                ->selectRaw('DATEDIFF(CURDATE(), users.created_at) AS anciennete')
-                ->leftJoin('publications', 'users.id', '=', 'publications.id_user')
-                ->groupBy('users.id', 'users.name', 'users.email', 'users.status_user', 'users.role_user','anciennete')
-                
-
-                ->where("name", "LIKE", "%$keyword%")         
-                ->orWhere("role_user", "LIKE", "%$keyword%")
+            $user = User::select('users.id','users.name','users.email','users.status_user','users.role_user','users.pdp')
+                ->selectRaw('DATEDIFF(CURDATE(), users.created_at) AS anciennete') 
+                ->where("users.name", "LIKE", "%$keyword%")         
+                ->orWhere("users.role_user", "LIKE", "%$keyword%")
                 ->orderBy('users.id', 'desc')
                 ->paginate($perPage);
+
         } else {
-            $utilisateur = User::select('users.id','users.name','users.email','users.status_user','users.role_user')
-            ->selectRaw('COUNT(publications.id) AS total_publications')
+            $user = User::select('users.id','users.name','users.email','users.status_user','users.role_user','users.pdp')
             ->selectRaw('DATEDIFF(CURDATE(), users.created_at) AS anciennete')
-            ->leftJoin('publications', 'users.id', '=', 'publications.id_user')
-            ->groupBy('users.id', 'users.name', 'users.email', 'users.status_user', 'users.role_user','anciennete')          
             ->paginate($perPage);
         }
 
    
-        return view('utilisateur.index',['utilisateur' => $utilisateur]) ->with('i', (request()->input('page', 1) -1) *5);
+        return view('user.index',['utilisateur' => $user]) ->with('i', (request()->input('page', 1) -1) *5);
     }
 
 
     public function create()
     {
-        return view('utilisateur.create');
+        return view('user.create');
     }
+
+    public function edit($id)
+    {
+        $user = User::findOrfail($id);
+        return view ('user.edit',['user' => $user]);
+    }
+
+
+    public function profil()
+    {
+        return view('user.profil');
+    }
+
 
 
     public function store(Request $request)
     {
-   
-        $request->validate([
-            'name'=>'required'
+       $request->validate([
+            'user-name' => 'required',
+            'user-mdp' => 'required|min:4',
+            'user-pdp' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
-        $utilisateur= new User();
-        $utilisateur->name = $request->name;
-        $utilisateur->email = $request->email;
-        $utilisateur->password = $request->password;
-        $utilisateur->role_user = $request->role_user;
-        
-
-        $utilisateur->prvlg_creation_super_user = $request->has('check_crea_super');
-        $utilisateur->prvlg_suppression_super_user = $request->has('check_suppr_super');
-        $utilisateur->prvlg_creation_user = $request->has('check_creat_user');
-        $utilisateur->prvlg_suppression_user = $request->has('check_suppr_user');
-        $utilisateur->prvlg_approb_blog = $request->has('check_approb_blog');
-        $utilisateur->prvlg_publi_blog = $request->has('check_gest_blog');
-        $utilisateur->prvlg_creation = $request->has('check_creat');
-        $utilisateur->prvlg_suppression = $request->has('check_suppr');
-        $utilisateur->prvlg_modification = $request->has('check_modif');
-        
-        $utilisateur->save();
-        return redirect()->route('utilisateur.index')->with('success', 'Utilisateur creer avec succes');
+    
+        $user = new User();
+    
+        if ($request->hasFile('user-pdp') && $request->file('user-pdp')->isValid()) {
+            $file_name = time() . '.' . $request->file('user-pdp')->getClientOriginalExtension();
+            $request->file('user-pdp')->move(public_path('images/pdp'), $file_name);
+            $user->pdp = $file_name;
+        } else {
+            $user->pdp = 'images/pdp/nopdp.png';
+        }
+    
+        $user->email = $request->input('user-mail') . $request->input('user-mail-adresse');
+        $user->name = $request->input('user-name');
+        $user->password = bcrypt($request->input('user-mdp'));
+        $user->tel_user = $request->input('user-tel');
+        $user->status_user = 'hors-ligne';
+        $user->theme_user = 'bleu';
+        $user->mode_user = 'light';
+        $user->role_user = $request->input('user-role');
+        $user->prvlg_super_user = $request->has('super-user');
+        $user->prvlg_task = $request->has('tache');
+        $user->prvlg_create_user = $request->has('create-user');
+        $user->prvlg_delete_user = $request->has('del-user');
+        $user->prvlg_update_user = $request->has('updat-user');
+        $user->prvlg_membre = $request->has('membre');
+        $user->prvlg_project = $request->has('project');
+        $user->prvlg_partenaire = $request->has('partenaire');
+        $user->prvlg_create_blog = $request->has('create-blog');
+        $user->prvlg_delete_blog = $request->has('del-blog');
+        $user->prvlg_update_blog = $request->has('updat-blog');
+        $user->prvlg_approv_blog = $request->has('approb-blog');
+    
+        $user->save();
+    
+        return redirect()->route('utilisateur.index')->with('success', 'Utilisateur créé avec succès');
     }
-
-    public function edit($id){
-        $utilisateur = User::findOrfail($id);
-        return view ('utilisateur.edit',['utilisateur' => $utilisateur]);
-    }
-
-
-    public function update(Request $request, User $utilisateur){
-        
-        $request->validate([
-            'name'=>'required'
-        ]);
-
-        $utilisateur= User::find($request->hidden_id);
-        $utilisateur->name = $request->name;
-        $utilisateur->email = $request->email;
-        $utilisateur->role_user = $request->role_user;
-        
-        $utilisateur->prvlg_creation_super_user = $request->has('check_crea_super');
-        $utilisateur->prvlg_suppression_super_user = $request->has('check_suppr_super');
-        $utilisateur->prvlg_creation_user = $request->has('check_creat_user');
-        $utilisateur->prvlg_suppression_user = $request->has('check_suppr_user');
-        $utilisateur->prvlg_approb_blog = $request->has('check_approb_blog');
-        $utilisateur->prvlg_publi_blog = $request->has('check_gest_blog');
-        $utilisateur->prvlg_creation = $request->has('check_creat');
-        $utilisateur->prvlg_suppression = $request->has('check_suppr');
-        $utilisateur->prvlg_modification = $request->has('check_modif');
-  
-        $utilisateur->save();
-
-        return redirect()->route('utilisateur.index')->with('success', 'Utilisateur modifier avec succes');
-    }
-
+    
     public function destroy($id){
-        $utilisateur= User::findOrFail($id);
-        $utilisateur->delete();
+        $user= User::findOrFail($id);
+        $image_path = public_path()."/images/pdp/";  
+        $image= $image_path. $user->pdp;
+        if(file_exists($image)){
+            @unlink($image);
+        }
+    
+        $user->delete();
         return redirect('utilisateur')->with('success','Utilisateur supprimer!');
     }
 
 
-    public function show($id) {
+    public function update(Request $request, User $user){
+        
+        $request->validate([
+            'user-name'=>'required'
+        ]);
+
+         if ($request->hasFile('user-pdp') && $request->file('user-pdp')->isValid()) {
+            $file_name = time() . '.' . $request->file('user-pdp')->getClientOriginalExtension();
+            $request->file('user-pdp')->move(public_path('images/pdp'), $file_name);
+         
+        } else {
+            $file_name =$request->hidden_user_pdp; 
+        }
+
+        $user= User::find($request->hidden_id);
+        $user->pdp = $file_name;
+        $user->email = $request->input('user-mail') . $request->input('user-mail-adresse');
+        $user->name = $request->input('user-name');
+        $user->tel_user = $request->input('user-tel');
+        $user->role_user = $request->input('user-role');
+        $user->prvlg_super_user = $request->has('super-user');
+        $user->prvlg_task = $request->has('tache');
+        $user->prvlg_create_user = $request->has('create-user');
+        $user->prvlg_delete_user = $request->has('del-user');
+        $user->prvlg_update_user = $request->has('updat-user');
+        $user->prvlg_membre = $request->has('membre');
+        $user->prvlg_project = $request->has('project');
+        $user->prvlg_partenaire = $request->has('partenaire');
+        $user->prvlg_create_blog = $request->has('create-blog');
+        $user->prvlg_delete_blog = $request->has('del-blog');
+        $user->prvlg_update_blog = $request->has('updat-blog');
+        $user->prvlg_approv_blog = $request->has('approb-blog');
+  
+        $user->save();
+
+        return redirect()->route('utilisateur.index')->with('success', 'Utilisateur modifier avec succes');
+    }
+
+
+
+  /*   public function show($id) {
         $utilisateur = User::findOrFail($id);
     
         $countUtilisateurCreation = publication::where('id_user', '=', $id)->count();
@@ -148,5 +186,5 @@ class UserController extends Controller
         return back();
     } 
 
-
+ */
 }
