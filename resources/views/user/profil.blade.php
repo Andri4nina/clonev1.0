@@ -1,19 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
-<section class=" block w-10/12 mx-auto ">
+<section class=" block max-w-6xl w-full mx-auto ">
     <div class="relative usersection">
         <h3 class="bounceslideInFromLeft text-2xl pl-2 mb-5 font-semibold">        <a href="{{ route('utilisateur.index') }}"  >
             <i class="text-4xl bx bx-chevron-left"></i></a> Utilisateurs / <small>Profil / @<b>{{ $user->name }}</b></small></h3>
-    
-            <div class="flex max-w-5xl gap-2">
 
-                <div class="bounceslideInFromLeft w-1/2 p-5 crud-card">
+            <div class="mx-auto block md:flex max-w-5xl gap-2">
+
+                <div class="bounceslideInFromLeft w-full md:w-1/2 p-5 crud-card">
                     <h4 class="font-semibold">Information Personnel de l'utilisateur</h4>
                     <div class="my-5 flex justify-center items-center">
                         <div class="relative h-20 w-20">
-                            <img src="{{ asset('images/pdp/'.$user->pdp )}}"alt="{{ $user->name }} pdp"" alt="" id="pdp" class=" h-full w-full object-cover rounded-full bg-gray-400 border border-gray-600 rounded-full">
-                        </div> 
+                            <img src="{{ asset('images/pdp/'.$user->pdp )}}"alt="{{ $user->name }} pdp"" alt="" id="pdp" class=" h-full w-full object-cover rounded-full bg-gray-400 border border-gray-600 rounded-full nopdpimg overflow-hidden">
+                        </div>
                     </div>
                     <div class="mb-5 flex justify-start items-center">
                         <div class="w-1/12"><i class="">@</i></div>
@@ -35,8 +35,8 @@
                     </div>
                 </div>
 
-              
-                <div class="bounceslideInFromRight grayscale w-1/2 p-5 crud-card">
+
+                <div class="bounceslideInFromRight grayscale w-full mt-5 md:mt-0 md:w-1/2 p-5 crud-card">
                     <h4 class="mb-5 font-semibold">Privilege</h4>
                     <div class="mb-5 flex justify-center items-center">
                         <h5 class="w-10/12">Super utilisateur</h5>
@@ -46,7 +46,7 @@
                                 <label class="ml-2" for="super-user"></label>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="mb-5 flex justify-center items-center">
                         <h5 class="w-10/12">Gestion des taches</h5>
@@ -58,8 +58,8 @@
                         </div>
                     </div>
                     <h5 class="w-10/12">Gestion des utilisateurs</h5>
-                    <div class="mb-5 flex justify-center items-center">
-                        <div class="w-1/2  mt-5 flex justify-center items-center">
+                    <div class="mb-5 block sm:flex justify-end sm:justify-center  items-center">
+                        <div class="w-1/2  mt-5 block sm:flex justify-end sm:justify-center  items-center">
                             <div>Creation</div>
                             <div class="">
                                 <div class="flex justify-center items-center prvlg-switcher">
@@ -68,7 +68,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="w-1/2 mt-5 flex justify-center items-center">
+                        <div class="w-1/2 mt-5 block sm:flex justify-end sm:justify-center  items-center">
                             <div>Modification</div>
                             <div class="">
                                 <div class="flex justify-center items-center prvlg-switcher">
@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="w-1/2 mt-5 flex justify-center items-center">
+                        <div class="w-1/2 mt-5 block sm:flex justify-end sm:justify-center  items-center">
                             <div>Suppression</div>
                             <div class="">
                                 <div class="flex justify-center items-center mb-2 prvlg-switcher">
@@ -87,7 +87,7 @@
                             </div>
                         </div>
                     </div>
-                
+
                     <div class="mb-5 flex justify-center items-center">
                         <h5 class="w-10/12">Gestion des membres</h5>
                         <div class="w-2/12">
@@ -159,34 +159,34 @@
                     </div>
                  </div>
 
-                
+
             </div>
-            <div class="bounceslideInFromBottom  my-5 p-5 crud-card">
+            <div class="bounceslideInFromBottom max-w-5xl mx-auto my-5 p-5 crud-card">
                 <h4 class="mb-5 font-semibold">Contribution</h4>
-                <div class="max-w-5xl flex mx-auto justify-center items-center">
-                    <div class="w-1/3">
+                <div class="max-w-5xl block sm:flex mx-auto justify-center items-center">
+                    <div class="w-full mx-auto mb-5 sm:mb-0 sm:w-1/3">
                         <canvas id="donutChart1" class="donut-chart  w-5 h-5"></canvas>
                         <p>Contribution  <br>des blogs global</p>
                     </div>
-                  
-                    <div class="w-1/3">
+
+                    <div class="w-full mx-auto mb-5 sm:mb-0 sm:w-1/3">
                         <canvas height="150px" id="donutChart2" class="donut-chart  w-5 h-5"></canvas>
                         <p>Contribution  <br>des blogs publiés global</p>
                     </div>
-                    <div class="w-1/3">
+                    <div class="w-full mx-auto mb-5 sm:mb-0 sm:w-1/3">
                         <canvas height="150px" id="donutChart3" class="donut-chart  w-5 h-5"></canvas>
                         <p>Contribution  <br>des blogs personnel</p>
                     </div>
                 </div>
-             
+
             </div>
-        
+
            </div>
 
-  
+
 </section>
 
-            
+
 
 
 <script>

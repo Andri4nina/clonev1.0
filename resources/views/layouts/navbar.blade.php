@@ -1,4 +1,10 @@
 <nav class=" w-full h-10 fixed top-0 left-0">
+    <div class="absolute top-5 left-5 menufritepos  cursor-pointer " onclick="showhidemenu() ">
+        <div class="menuFrite " ">
+
+        </div>
+    </div>
+
   <div class="flex gap-10 justify-center items-center mt-5 mr-5 float-right usercontent">
 
       <div class=" flex gap-2 justify-center items-center text-sm font-bold ">
@@ -11,15 +17,15 @@
 
       </div>
 
-      <div class="bg-blue-600 w-10 h-10 rounded-full overflow-hidden">
+      <div class="nopdpimg w-10 h-10 rounded-full overflow-hidden">
         <img src="{{ asset('images/pdp/' . Illuminate\Support\Facades\Auth::user()->pdp) }}" alt="" class="w-full h-full object-cover">
       </div>
   </div>
 </nav>
 
-<aside class="fixed top-0 left-0  min-h-screen">
+<aside class="fixed top-0 left-0  min-h-screen ">
   <div class="fixed top-0 left-0 p-6 flex justify-center items-center gap-2">
-    <div class="w-10 h-10 bg-red-500">
+    <div class="w-10 h-10 nopdpimg">
       <img src="" alt="logo" class="w-full h-full">
     </div>
     <div>
@@ -246,7 +252,18 @@ colors.forEach(color => {
         });
       </script>
 
+<script>
+    const aside = document.querySelector('aside');
+    const menuFrite = document.querySelector('.menuFrite');
+    const menuPosition = document.querySelector('.menufritepos');
 
+
+    function showhidemenu(){
+        aside.classList.toggle('active');
+        menuFrite.classList.toggle('active');
+        menuPosition.classList.toggle('active');
+    }
+</script>
 </aside>
 
 

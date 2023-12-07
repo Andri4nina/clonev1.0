@@ -14,10 +14,10 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js" ></script>
 
 </head>
-   <body class=" min-h-screen">
 
 
-    <body class="min-h-screen">
+
+    <body class=" min-h-screen">
       <header class="relative z-30">
         {{ view('layouts.navbar') }}
       </header>
@@ -25,13 +25,13 @@
         @yield('content')
       </section>
 
-{{--
 
 
-    <footer class="">
+
+    <footer class="text-center m-10 mb-5">
       {{ view('layouts.footer') }}
     </footer>
-  --}}
+
 
     <script>
           // Récupérer les valeurs mode_user et theme_user

@@ -1238,7 +1238,11 @@ aside{
   width: 250px;
   height: 100vh;
   background: linear-gradient(to bottom,var(--bg-black-100),var(--bg-black-50));
-
+  transition:.5s ease all ;
+  -webkit-transition:.5s ease all ;
+  -moz-transition:.5s ease all ;
+  -ms-transition:.5s ease all ;
+  -o-transition:.5s ease all ;
 }
 
 
@@ -1257,6 +1261,111 @@ aside{
  color: var(--skin--color1);
  font-weight: bold;
 }
+
+.menufritepos{
+    left: 20px;
+    top: 45px;
+    transition: .5s ease all;
+    -webkit-transition: .5s ease all;
+    -moz-transition: .5s ease all;
+    -ms-transition: .5s ease all;
+    -o-transition: .5s ease all;
+}
+
+.menufritepos.active{
+    position:absolute;
+    transition: .5s ease all;
+    -webkit-transition: .5s ease all;
+    -moz-transition: .5s ease all;
+    -ms-transition: .5s ease all;
+    -o-transition: .5s ease all;
+    transform: translateX(250px);
+    -webkit-transform: translateX(250px);
+    -moz-transform: translateX(250px);
+    -ms-transform: translateX(250px);
+    -o-transform: translateX(250px);
+}
+
+.menuFrite{
+    content: '';
+    background-color: var(--skin--color2);
+    width: 30px;
+    height: 3px;
+    border-radius: 2px;
+    transition: .5s ease all;
+    -webkit-transition: .5s ease all;
+    -moz-transition: .5s ease all;
+    -ms-transition: .5s ease all;
+    -o-transition: .5s ease all;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+}
+
+.menuFrite::before{
+    position:absolute;
+    top: -10px;
+    content: '';
+    background-color: var(--skin--color2);
+    width: 20px;
+    height: 3px;
+    border-radius: 2px;
+    transition: .5s ease all;
+    -webkit-transition: .5s ease all;
+    -moz-transition: .5s ease all;
+    -ms-transition: .5s ease all;
+    -o-transition: .5s ease all;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+}
+
+.menuFrite:hover{
+    transform: rotateZ(-20deg);
+    -webkit-transform: rotateZ(-20deg);
+    -moz-transform: rotateZ(-20deg);
+    -ms-transform: rotateZ(-20deg);
+    -o-transform: rotateZ(-20deg);
+}
+
+.menuFrite:hover::before{
+    transform: rotateZ(40deg);
+    -webkit-transform: rotateZ(40deg);
+    -moz-transform: rotateZ(40deg);
+    -ms-transform: rotateZ(40deg);
+    -o-transform: rotateZ(40deg);
+}
+
+.menuFrite.active{
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transition: .5s ease all;
+    -webkit-transition: .5s ease all;
+    -moz-transition: .5s ease all;
+    -ms-transition: .5s ease all;
+    -o-transition: .5s ease all;
+}
+
+.menuFrite.active::before{
+    width: 30px;
+    transform: translate(0px,10px) rotate(90deg);
+    -webkit-transform: translate(0px,10px) rotate(90deg);
+    -moz-transform: translate(0px,10px) rotate(90deg);
+    -ms-transform: translate(0px,10px) rotate(90deg);
+    -o-transform: translate(0px,10px) rotate(90deg);
+    transition: .5s ease all;
+    -webkit-transition: .5s ease all;
+    -moz-transition: .5s ease all;
+    -ms-transition: .5s ease all;
+    -o-transition: .5s ease all;
+}
+
+
   /* ==========================================================================end navbar========================================================================== */
 
   .usersection{
@@ -1264,6 +1373,8 @@ aside{
     width: calc(100% - 250px);
     margin-left: 250px;
   }
+
+
 
 
   /* ==========================================================================Dashboard========================================================================== */
@@ -1882,7 +1993,10 @@ aside{
   width: calc(100% - 250px);
   margin-left: 250px;
 }
-
+footer{
+    width: calc(100% - 250px);
+    margin-left: 250px;
+}
 /* ==========================================================================end footer========================================================================== */
 
 
@@ -1896,6 +2010,19 @@ aside{
       height: 100vh;
       background: linear-gradient(to bottom,var(--bg-black-100),var(--bg-black-50));
      transform: translateX(-250px);
+    }
+
+    aside.active{
+        transform: translateX(0);
+        -webkit-transform: translateX(0);
+        -moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        -o-transform: translateX(0);
+}
+
+    footer{
+        width:100%;
+        margin: 0;
     }
     .usersection{
       width:100%;

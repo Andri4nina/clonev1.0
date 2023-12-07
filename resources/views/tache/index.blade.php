@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="block w-11/12 mx-auto ">
+<section class=" block max-w-6xl w-full mx-auto ">
     <div class="usersection">
         @if ($message = Session::get('success'))
         <script type="text/javascript">
@@ -16,7 +16,7 @@
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
                 }
             })
-            
+
             Toast.fire({
                 icon: 'success',
                 title: '{{ $message }}'
@@ -24,39 +24,39 @@
         </script>
     @endif
     <h3 class="bounceslideInFromLeft text-2xl pl-2 mb-5 font-semibold">Taches</h3>
-    @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_task == "1"))  
+    @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_task == "1"))
         <form class="bounceslideInFromLeft" action="{{ route('tache.CRUD')}}" method="POST">
             @csrf
     @endif
             <div class="mb-5 w-full">
                 <div class="mb-5  flex justify-center items-center input-field">
                     <div class="w-1/12"><i class="text-2xl bx bx-task"></i></div>
-                   
+
                         <input type="hidden" name="hidden_id" id="id_modif">
                         <input type="text" name='tache-titre' placeholder="Nouvel taches" class="w-11/12  bg-none">
-                        @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_task == "1"))  
+                        @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_task == "1"))
                             <button><i class="bx bxs-send"></i></button>
                         @endif
                 </div>
             </div>
-    @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_task == "1")) 
+    @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_task == "1"))
         </form>
     @endif
-        <div class="overflow-hidden max-h-screen h-auto w-full flex gap-2">
-            <div class="bounceslideInFromLeft w-1/4">
-              
+        <div class="overflow-hidden max-h-screen h-auto w-full block sm:flex gap-2">
+            <div class="bounceslideInFromLeft w-full sm:w-1/4">
+
                 <h4 class="text-center">Nouvel tache</h4>
-              
-                    <div class="overflow-y-hidden max-h-screen h-auto">
-                        <ul class="overflow-y-scroll overflow-x-hidden pt-5 h-5/6">
+
+                    <div class="overflow-x-scroll sm:overflow-x-auto overflow-y-hidden max-h-screen h-auto">
+                        <ul class="w-fit sm:w-full gap-2 flex flex-nowrap sm:block sm:overflow-y-scroll sm:overflow-x-hidden pt-5 h-5/6">
                         @foreach($tache as $tache)
-                            <li class="mb-5 relative text-xs flex justify-between task-card newTask" >
+                            <li class="w-80 sm:w-auto mb-5 relative text-xs flex justify-between task-card newTask" >
                                 <div id="content{{ $tache->id }}">{{ $tache->libelle_task }}</div>
                                 <input type="hidden" name="hidden_id" value="{{ $tache->id }}">
-                                @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_task == "1")) 
-                               
+                                @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_task == "1"))
+
                                     <form class="absolute top-0 right-0  -translate-y-1/2 delete-task" action="{{ route('tache.destroy', $tache->id) }}" method="POST" >
-                                    
+
                                         @method('delete')
                                         @csrf
                                         <button class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2" onclick="deleteConfirm(event)"><i class="text-sm text-red-500 bx bx-x"></i></button>
@@ -69,18 +69,18 @@
                         @endforeach
                         </ul>
                     </div>
-             
-               
+
+
             </div>
 
-            <div class="bounceslideInFromLeft w-1/4">
+            <div class="bounceslideInFromLeft w-full sm:w-1/4">
                 <h4 class="text-center">Tache en progression</h4>
-                <div class="overflow-y-hidden max-h-screen h-auto">
-                    <ul class="overflow-y-scroll overflow-x-hidden pt-5 h-5/6">
+                <div class="overflow-x-scroll sm:overflow-x-auto overflow-y-hidden max-h-screen h-auto">
+                    <ul class="w-fit sm:w-full gap-2 flex flex-nowrap sm:block sm:overflow-y-scroll sm:overflow-x-hidden pt-5 h-5/6">
                         @foreach($tacheProgress as $tache)
-                            <li class="mb-5 relative text-xs flex justify-between items-center task-card progress">
+                            <li class="w-80 sm:w-auto mb-5 relative text-xs flex justify-between task-card progress" >
                                 <div>{{ $tache->libelle_task }}</div>
-                                @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_task == "1")) 
+                                @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_task == "1"))
                                 <form class="-translate-y-1/3" action="{{ route('tache.done',$tache->id) }}" method="POST">
                                     @csrf
                                     <button class="" onclick="doneConfirm(event)"><i class="text-sm bx bx-check-circle"></i></button>
@@ -96,14 +96,14 @@
                 </div>
             </div>
 
-            <div class="bounceslideInFromRight w-1/4">
+            <div class="bounceslideInFromRight w-full sm:w-1/4">
                 <h4 class="text-center">Tache en revision</h4>
-                <div class="overflow-y-hidden max-h-screen h-auto">
-                    <ul class="overflow-y-scroll overflow-x-hidden pt-5 h-5/6">
+                <div class="overflow-x-scroll sm:overflow-x-auto overflow-y-hidden max-h-screen h-auto">
+                    <ul class="w-fit sm:w-full gap-2 flex flex-nowrap sm:block sm:overflow-y-scroll sm:overflow-x-hidden pt-5 h-5/6">
                         @foreach($tachereview as $tache)
-                        <li class="mb-5 relative text-xs flex justify-between items-center task-card review">
-                            <div>{{ $tache->libelle_task }}</div>
-                            @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_task == "1")) 
+                        <li class="w-80 sm:w-auto mb-5 relative text-xs flex justify-between task-card review" >
+                            <div >{{ $tache->libelle_task }}</div>
+                            @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_task == "1"))
                             <form class="-translate-y-1/3" action="{{ route('tache.done',$tache->id) }}" method="POST">
                                 @csrf
                                 <button class="" onclick="doneConfirm(event)"><i class="text-sm hover:text-green-500 bx bx-check-circle"></i></button>
@@ -115,12 +115,12 @@
                 </div>
             </div>
 
-            <div class="bounceslideInFromRight w-1/4">
+            <div class="bounceslideInFromRight w-full sm:w-1/4">
                 <h4 class="text-center">Tache accomplie</h4>
-                <div class="overflow-y-hidden max-h-screen h-auto">
-                    <ul class="overflow-y-scroll overflow-x-hidden pt-5 h-5/6">
+                <div class="overflow-x-scroll sm:overflow-x-auto overflow-y-hidden max-h-screen h-auto">
+                    <ul class="w-fit sm:w-full gap-2 flex flex-nowrap sm:block sm:overflow-y-scroll sm:overflow-x-hidden pt-5 h-5/6">
                         @foreach($tacheDone as $tache)
-                            <li class="mb-5 relative text-xs flex justify-between items-center task-card done">
+                        <li class="w-80 sm:w-auto mb-5 relative text-xs flex justify-between task-card done" >
                                 <div>{{ $tache->libelle_task }}</div>
                             </li>
                         @endforeach
@@ -130,9 +130,9 @@
         </div>
 
 
-        <div class=" flex gap-2">
-            <div class="bounceslideInFromLeft w-2/3">
-                @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_task == "1")) 
+        <div class=" flex flex-col-reverse sm:flex-row gap-2">
+            <div class="bounceslideInFromLeft w-full sm:w-1/2  lg:w-2/3">
+                @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_task == "1"))
                 <form action="{{ route('tache.impact') }}" method="POST">
                     @csrf
                 @endif
@@ -141,11 +141,11 @@
                         <div class="relative my-5 flex w-72 mx-auto stepper">
                             <input type="text" id="personnes_impactees" value="0">
                             <div class="w-1/2 relative">
-              
+
                             </div>
                         </div>
-                        <div class="flex gap-2">
-                            <div>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="">
                                 <h4 class="text-center">Enfants</h4>
                                 <div class="relative my-5 flex w-72 mx-auto stepper">
                                     <input type="text" id="enfants" name="enfants" value="0">
@@ -178,19 +178,19 @@
                         </div>
                     </div>
                     <div class="mx-auto w-fit">
-                        @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_task == "1")) 
+                        @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_task == "1"))
                         <button class="mb-5 bg-green-500 hover:bg-green-600 text-white">Enregistrer</button>
                         @else
                         <button class="grayscale mb-5 bg-green-500 hover:bg-green-600 text-white">Enregistrer</button>
-                        
+
                         @endif
 
                     </div>
-            @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_task == "1")) 
+            @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_task == "1"))
                 </form>
             @endif
             </div>
-            <div class="bounceslideInFromRight w-1/3 mx-auto">
+            <div class="bounceslideInFromRight w-full sm:w-1/2  lg:w-1/3 mx-auto">
                 <div class="w-full p-5 dash-card mb-2 h-auto">
                     <h3 class="text-sm mb-5 font-semibold">Nombre de Personne impacter en general</h3>
                     <div class="flex justify-center items-center gap-2">
@@ -200,11 +200,11 @@
                         </div>
                         <div class="relative w-1/2">
                             <canvas id="ImpactDoughnutChart" class="w-full h-28"></canvas>
-                        
+
                             <script>
                                 document.addEventListener('DOMContentLoaded', function() {
                                     const impactDoughnut = document.getElementById('ImpactDoughnutChart').getContext('2d');
-    
+
                                     const dataimpact = {
                                         datasets: [{
                                             data: [{{ $impactValues->adultes }}, {{ $impactValues->adolescents }}, {{ $impactValues->enfants }}],
@@ -221,7 +221,7 @@
                                             borderWidth: 1
                                         }]
                                     };
-    
+
                                     const options = {
                                         plugins: {
                                             legend: {
@@ -234,7 +234,7 @@
                                             text: 'Répartition des Impacts'
                                         }
                                     };
-    
+
                                     const ImpactDoughnutChart = new Chart(impactDoughnut, {
                                         type: 'doughnut',
                                         data: dataimpact,
@@ -242,18 +242,18 @@
                                     });
                                 });
                             </script>
-    
-                        
+
+
                         </div>
                     </div>
                     <ul>
-                       
+
                         <li class="my-2 text-xs flex items-center justify-between">
                             <div class="flex items-center justify-around">
                                 <div class=" dash-icon">
                                     <i class="text-green-500 bx bxs-user"></i>
                                 </div>
-                         
+
                                 <span>{{ $impactValues->enfants }}</span>
                             </div>
                             <div class="float-right">Enfants</div>
@@ -276,18 +276,18 @@
                             </div>
                             <div class="float-right">Adultes</div>
                         </li>
-                  
+
                     </ul>
                 </div>
-    
-    
+
+
             </div>
         </div>
 
-        
 
-        
-     
+
+
+
     </div>
 </section>
 

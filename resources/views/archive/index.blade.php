@@ -21,7 +21,7 @@
         })
     </script>
     @endif
-<section class="block max-w-fit w-fit mx-auto ">
+<section class=" block max-w-6xl w-full mx-auto ">
     <div class="usersection">
         <h3 class="bounceslideInFromLeft text-2xl pl-2 mb-5 font-semibold">Archives</h3>
         <div class="bounceslideInFromRight p-5 min-w-4xl crud-card">
@@ -40,8 +40,8 @@
                 </div>
 
             </div>
-            <div class="relative crud-list">
-                <table class=" text-center min-w-full">
+            <div class="relative crud-list overflow-hidden">
+                <table class="relative text-center min-w-full tableBlog">
                     <thead>
                         <tr>
                             <th class="px-4 py-2">Titre</th>
@@ -56,47 +56,65 @@
                     <tbody>
                         @if (count($blogs) > 0)
                             @foreach ($blogs as $blog)
-                                <tr class="">
-                                    <td class="px-4 py-2 flex justify-center  gap-2 ">
-                                        <a href="{{ route('blog.show',$blog->id) }}" class="px-4 py-1"><span>{{$blog->titre_blog}}</span></a>
-                                    </td>
+                            <tr class="justify-center items-center">
+                                <td data-label="Titre" class="px-4 py-2 flex justify-center  gap-2 ">
+                                    <a href="{{ route('blog.show',$blog->id) }}" class=" py-1"><span>{{$blog->titre_blog}}</span></a>
+                                </td>
 
-                                    <td class="px-4 py-2"> {{ $blog->created_at }}</td>
-                                    <td class="px-4 py-2"> {{ $blog->date_publi_blog }}</td>
-                                    <td class="px-4 py-2"> {{ $blog->author_name }}</td>
-                                    <td class="px-4 py-2">{{ $blog->status_blog }}</td>
-                                    <td class="flex justify-center items-center  gap-2 px-4 translate-y-5">
+                                <td data-label="Date de creation" class="px-4 py-2"> {{ $blog->created_at }}</td>
+                                <td data-label="Date de publication" class="px-4 py-2"> {{ $blog->date_publi_blog }}</td>
+                                <td data-label="Auteur" class="px-4 py-2"> {{ $blog->author_name }}</td>
+                                <td data-label="Status" class="px-4 py-2">{{ $blog->status_blog }}</td>
+                                <td data-label="Actions" class="w-auto">
+                                    <div class="flex justify-center items-center  gap-2  my-auto ">
+                                        @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_update_blog == "1" && Auth::user()->id == $blog->user_id))
+                                            <form action="{{ route('blog.edit',$blog->id) }}" >
+                                                <button class="border text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white  font-bold "><i class="bx bx-pencil"></i></button>
+                                            </form>
+                                        @else
+                                            <button class="grayscale border text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white  font-bold "><i class="bx bx-pencil"></i></button>
+                                        @endif
+                                        @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_delete_blog == "1" && Auth::user()->id == $blog->user_id))
+                                            <form action="{{ route('blog.destroy',$blog->id) }}" method="POST">
+                                                @method('delete')
+                                                @csrf
+                                                <input type="hidden" name="the_user" value=" {{\Illuminate\Support\Facades\Auth::user()->name}}">
+                                                <button class="border text-red-500 border-red-500 hover:bg-red-500 hover:text-white font-bold "onclick="deleteConfirm(event)"><i class="bx bx-trash"></i></button>
+                                            </form>
+                                        @else
+                                            <button class="grayscale border text-red-500 border-red-500 hover:bg-red-500 hover:text-white font-bold "onclick="deleteConfirm(event)"><i class="bx bx-trash"></i></button>
+                                        @endif
 
-                                        <form action="{{ route('blog.edit',$blog->id) }}" >
-                                            <button class="border text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white  font-bold "><i class="bx bx-pencil"></i></button>
-                                        </form>
-                                        <form action="{{ route('blog.destroy',$blog->id) }}" method="POST">
-                                            @method('delete')
-                                            @csrf
-                                            <input type="hidden" name="the_user" value=" {{\Illuminate\Support\Facades\Auth::user()->name}}">
 
-                                            <button class="border text-red-500 border-red-500 hover:bg-red-500 hover:text-white font-bold "onclick="deleteConfirm(event)"><i class="bx bx-trash"></i></button>
-                                        </form>
-                                    </td>
 
-                                    <td class="px-4 py-2">
+                                    </div>
+                                </td>
+                                <td data-label="Publier" class="px-4 py-2">
+                                    @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_delete_blog == "1" && Auth::user()->id == $blog->user_id))
                                         <form action="{{ route('blog.publish') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="the_user" value=" {{\Illuminate\Support\Facades\Auth::user()->name}}">
 
                                             <div class="flex justify-center items-center mb-2 prvlg-switcher">
                                                 <input type="hidden" name='hidden_id' value="{{ $blog->id }}">
-                                                <input class="form-checkbox" type="checkbox" id="publier" name="status" @if ($blog->status_blog =='Publier') @checked(true)  @endif   onchange="publishConfirm(event)" >
-                                                <label class="ml-2" for="publier"></label>
+                                                <input class="form-checkbox" type="checkbox" id="publier{{ $blog->id }}" name="status" @if ($blog->status_blog =='Publier') @checked(true)  @endif   onchange="publishConfirm(event)" >
+                                                <label class="ml-2" for="publier{{ $blog->id }}"></label>
                                             </div>
                                         </form>
+                                    @else
+                                        <div class="grayscale flex justify-center items-center mb-2 prvlg-switcher">
+                                            <input class="form-checkbox" disabled type="checkbox" id="publier" name="status" @if ($blog->status_blog =='Publier') @checked(true)  @endif   onchange="publishConfirm(event)" >
+                                            <label class="ml-2" for="publier"></label>
+                                        </div>
+                                    @endif
 
-                                    </td>
-                                </tr>
+
+                                </td>
+                            </tr>
                             @endforeach
                         @else
-                            <div class="absolute top-16 text-center w-full h-14 ">
-                                <p>Aucun enregistrement ne correspond a votre recherche </p>
+                            <div class="absolute bottom-0 text-center w-full h-14 ">
+                                <p>Aucun enregistrement ne correspond a votre recherche ou aucun blog n'est archiver</p>
                             </div>
                         @endif
 
@@ -128,8 +146,8 @@
                 </div>
 
             </div>
-            <div class="relative crud-list">
-                <table class="text-center min-w-full">
+            <div class="relative crud-list overflow-hidden">
+                <table class="text-center min-w-full tablePart">
                     <thead>
                         <tr>
                             <th class="px-4 py-2">Logo</th>
@@ -144,46 +162,61 @@
                     <tbody>
                         @if (count($partenaire) > 0)
                             @foreach ($partenaire as $part)
-                            <tr class="">
-                                <td class="px-4 py-2 flex justify-center  gap-2 ">
-                                    <div class=" h-10 w-10 rounded-full overflow-hidden">
-                                    <a href="{{ route('partenaire.show',$part->id) }}"> <img src="{{ asset('images/pdp-partenaire/'.$part->logo_partenaire) }}" alt="" class="object-cover w-full h-full"></a>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-2"><a href="{{ route('partenaire.show',$part->id) }}">{{ $part->nom_partenaire }}</a></td>
-                                <td class="px-4 py-2">{{ $part->abbrev_partenaire }}</td>
-                                <td class="px-4 py-2">{{ $part->date_relation_partenaire }}</td>
-                                <td class="px-4 py-2">{{ $part->status_partenaire }}</td>
-                                <td class="flex justify-center items-center gap-2 px-4 -translate-y-1/3">
-
-                                    <form action="{{ route('partenaire.edit' ,$part->id )}}">
-                                        <button class="border text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white  font-bold "><i class="bx bx-pencil"></i></button>
-                                    </form>
-                                    <form action="{{ route('partenaire.destroy' ,$part->id )}}" method="POST">
-                                        @method('delete')
-                                        @csrf
-                                        <input type="hidden" name="the_user" value=" {{\Illuminate\Support\Facades\Auth::user()->name}}">
-
-                                        <button class="border text-red-500 border-red-500 hover:bg-red-500 hover:text-white font-bold "onclick="deleteConfirm(event)"><i class="bx bx-trash"></i></button>
-                                    </form>
-                                </td>
-
-                                <td class="px-4 py-2">
-                                    <form action="{{ route('partenaire.publish') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="the_user" value=" {{\Illuminate\Support\Facades\Auth::user()->name}}">
-
-                                        <div class="flex justify-center items-center mb-2 prvlg-switcher">
-                                            <input type="hidden" name='hidden_id' value="{{ $part->id }}">
-                                            <input class="form-checkbox" type="checkbox" id="publier" name="status" @if ($part->status_partenaire =='Publier') @checked(true)  @endif   onchange="publishConfirm(event)" >
-                                            <label class="ml-2" for="publier"></label>
+                                <tr class="">
+                                    <td data-label="Logo" class="px-4 py-2 flex justify-center  gap-2 ">
+                                        <div class=" h-10 w-10 rounded-full overflow-hidden">
+                                        <a href="{{ route('partenaire.show',$part->id) }}"> <img src="{{ asset('images/pdp-partenaire/'.$part->logo_partenaire) }}" alt="" class="nopdpimg object-cover w-full h-full"></a>
                                         </div>
-                                    </form>
-                                </td>
-                            </tr>
+                                    </td>
+                                    <td data-label="Nom du partenaire" class="px-4 py-2"><a href="{{ route('partenaire.show',$part->id) }}">{{ $part->nom_partenaire }}</a></td>
+                                    <td data-label="Abbreviation" class="px-4 py-2">{{ $part->abbrev_partenaire }}</td>
+                                    <td data-label="Date de relation" class="px-4 py-2">{{ $part->date_relation_partenaire }}</td>
+                                    <td data-label="Status" class="px-4 py-2">{{ $part->status_partenaire }}</td>
+                                    <td data-label="Actions" class="w-auto">
+                                        <div class="flex justify-center items-center  gap-2 ">
+                                            @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_partenaire == "1"))
+                                                <form action="{{ route('partenaire.edit' ,$part->id )}}">
+                                                    <button class=" border text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white  font-bold "><i class="bx bx-pencil"></i></button>
+                                                </form>
+                                                <form action="{{ route('partenaire.destroy' ,$part->id )}}" method="POST">
+                                                    @method('delete')
+                                                    @csrf
+                                                    <input type="hidden" name="the_user" value=" {{\Illuminate\Support\Facades\Auth::user()->name}}">
+
+                                                    <button class="border text-red-500 border-red-500 hover:bg-red-500 hover:text-white font-bold "onclick="deleteConfirm(event)"><i class="bx bx-trash"></i></button>
+                                                </form>
+                                            @else
+                                                <button class="grayscale border text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white  font-bold "><i class="bx bx-pencil"></i></button>
+                                                <button class="grayscale border text-red-500 border-red-500 hover:bg-red-500 hover:text-white font-bold "onclick="deleteConfirm(event)"><i class="bx bx-trash"></i></button>
+                                            @endif
+                                        </div>
+                                    </td>
+
+                                    <td data-label="Publier" class="px-4 py-2">
+
+                                    @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_partenaire == "1"))
+                                        <form action="{{ route('partenaire.publish') }}" method="POST">
+                                            @csrf
+                                            <div class="flex justify-center items-center mb-2 prvlg-switcher">
+                                                <input type="hidden" name="the_user" value=" {{\Illuminate\Support\Facades\Auth::user()->name}}">
+
+                                                <input type="hidden" name='hidden_id' value="{{ $part->id }}">
+                                                <input class="form-checkbox" type="checkbox" id="publier{{ $part->id }}" name="status" @if ($part->status_partenaire =='Publier') @checked(true)  @endif   onchange="publishConfirm(event)" >
+                                                <label class="ml-2" for="publier{{ $part->id }}"></label>
+                                            </div>
+                                        </form>
+                                    @else
+                                    <div class="grayscale flex justify-center items-center mb-2 prvlg-switcher">
+
+                                        <input disabled class="form-checkbox" type="checkbox" id="publier" name="status" @if ($part->status_partenaire =='Publier') @checked(true)  @endif   onchange="publishConfirm(event)" >
+                                        <label class="ml-2" for="publier"></label>
+                                    </div>
+                                    @endif
+                                    </td>
+                                </tr>
                             @endforeach
                         @else
-                            <div class="absolute top-16 text-center w-full h-14 ">
+                            <div class="absolute bottom-0 text-center w-full h-14 ">
                                 <p>Aucun enregistrement ne correspond a votre recherche ou vous n'avez pas encore de partenaire archiver </p>
                             </div>
                         @endif
@@ -202,7 +235,7 @@
 
         <div class="bounceslideInFromRight p-5 min-w-4xl crud-card">
             <div class="top-card">
-                <h4>Tous les projects</h4>
+                <h4>Tous les projects archiver</h4>
                 <div class="w-full">
                     <form action="{{ route('archive.index') }}" class="my-5">
                         <div class="flex justify-center items-center relative">
@@ -216,8 +249,8 @@
                 </div>
 
             </div>
-            <div class="relative crud-list">
-                <table class="text-center min-w-full">
+            <div class="relative crud-list overflow-hidden">
+                <table class="relative text-center min-w-full tableProj">
                     <thead>
                         <tr>
                             <th class="px-4 py-2">Titre</th>
@@ -232,59 +265,61 @@
                     <tbody>
                         @if (count($project) > 0)
                             @foreach ($project as $proj)
-                                <tr class="">
-                                    <td class="px-4 py-2 flex justify-center  gap-2 ">
-                                        <a href="{{ route('project.show',$proj->id ) }}" class="px-4 py-1"><span>{{ $proj->titre_project }}</span></a>
-                                    </td>
-                                    <td class="px-4 py-2">{{ $proj->created_at }}</td>
-                                    <td class="px-4 py-2">{{ $proj->date_publi_project }}</td>
-                                    <td class="px-4 py-2">{{ $proj->zone_project }}</td>
-                                    <td class="px-4 py-2">{{ $proj->status_project }}</td>
-                                    <td class="flex justify-center items-center gap-2 px-4 py-2">
-                                        @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_project == "1"))
-                                        <form action="{{ route('project.edit',$proj->id) }}">
-                                            <button class="border text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white  font-bold "><i class="bx bx-pencil"></i></button>
-                                        </form>
-                                        <form action="{{ route('project.destroy' ,$proj->id )}}" method="POST">
-                                            @method('delete')
-                                            @csrf
-                                            <input type="hidden" name="the_user" value=" {{\Illuminate\Support\Facades\Auth::user()->name}}">
+                            <tr class="">
+                                <td data-label="Titre" class="px-4 py-2 flex justify-center  gap-2 ">
+                                    <a href="{{ route('project.show',$proj->id ) }}" class="px-4 py-1"><span>{{ $proj->titre_project }}</span></a>
+                                </td>
+                                <td data-label="Date de creation" class="px-4 py-2">{{ $proj->created_at }}</td>
+                                <td data-label="Date de publication" class="px-4 py-2">{{ $proj->date_publi_project }}</td>
+                                <td data-label="Zone d'activite" class="px-4 py-2">{{ $proj->zone_project }}</td>
+                                <td data-label="Status" class="px-4 py-2">{{ $proj->status_project }}</td>
+                                <td data-label="Actions" class="w-auto">
+                                    <div class="flex justify-center items-center  gap-2 ">
+                                        @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_partenaire == "1"))
+                                            <form action="{{ route('project.edit',$proj->id) }}">
+                                                <button class="border text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white  font-bold "><i class="bx bx-pencil"></i></button>
+                                            </form>
+                                            <form action="{{ route('project.destroy' ,$proj->id )}}" method="POST">
+                                                @method('delete')
+                                                @csrf
+                                                    <input type="hidden" name="the_user" value=" {{\Illuminate\Support\Facades\Auth::user()->name}}">
 
-                                            <button class="border text-red-500 border-red-500 hover:bg-red-500 hover:text-white font-bold "onclick="deleteConfirm(event)"><i class="bx bx-trash"></i></button>
-                                        </form>
-                                        @else
-                                        <button class="grayscale border text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white  font-bold "><i class="bx bx-pencil"></i></button>
-                                        <button class=" grayscale border text-red-500 border-red-500 hover:bg-red-500 hover:text-white font-bold "onclick="deleteConfirm(event)"><i class="bx bx-trash"></i></button>
+                                                <button class="border text-red-500 border-red-500 hover:bg-red-500 hover:text-white font-bold "onclick="deleteConfirm(event)"><i class="bx bx-trash"></i></button>
+                                            </form>
+                                            @else
+                                                <button disabled class="grayscale border text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white  font-bold "><i class="bx bx-pencil"></i></button>
+                                                <button disabled class="border grayscale text-red-500 border-red-500 hover:bg-red-500 hover:text-white font-bold "onclick="deleteConfirm(event)"><i class="bx bx-trash"></i></button>
+                                            @endif
+                                    </div>
 
-                                        @endif
-                                    </td>
+                                </td>
 
-                                    <td class="px-4 py-2">
-                                        @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_project == "1"))
+                                <td data-label="Publier" class="px-4 py-2">
+                                    @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_partenaire == "1"))
                                         <form action="{{ route('project.publish') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="the_user" value=" {{\Illuminate\Support\Facades\Auth::user()->name}}">
 
                                             <input type="hidden" name='hidden_id' value="{{ $proj->id }}">
                                             <div class="flex justify-center items-center mb-2 prvlg-switcher">
-                                                <input class="form-checkbox" type="checkbox" id="publier" name="status" @if ($proj->status_project =='Publier') @checked(true)  @endif   onchange="publishConfirm(event)"  >
-                                                <label class="ml-2" for="publier"></label>
+                                                <input class="form-checkbox" type="checkbox" id="publier{{ $proj->id }}" name="status" @if ($proj->status_project =='Publier') @checked(true)  @endif   onchange="publishConfirm(event)"  >
+                                                <label class="ml-2" for="publier{{ $proj->id }}"></label>
                                             </div>
                                         </form>
-                                        @else
+                                    @else
                                         <div class="grayscale flex justify-center items-center mb-2 prvlg-switcher">
-                                            <input class="form-checkbox" disabled type="checkbox" id="publier" name="status" @if ($proj->status_project =='Publier') @checked(true)  @endif   onchange="publishConfirm(event)"  >
+                                            <input disabled class="form-checkbox" type="checkbox" id="publier" name="status" @if ($proj->status_project =='Publier') @checked(true)  @endif   onchange="publishConfirm(event)"  >
                                             <label class="ml-2" for="publier"></label>
                                         </div>
-                                        @endif
-                                    </td>
+                                    @endif
+                                </td>
 
 
-                                </tr>
+                            </tr>
                         @endforeach
                         @else
-                            <div class="absolute top-16 text-center w-full h-14 ">
-                                <p>Aucun enregistrement ne correspond a votre recherche </p>
+                            <div class="absolute bottom-0 text-center w-full h-14 ">
+                                <p>Aucun enregistrement ne correspond a votre recherche ou aucun project archiver</p>
                             </div>
                         @endif
                     </tbody>
