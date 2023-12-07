@@ -3,52 +3,56 @@
 @section('content')
 <section class=" block w-10/12 mx-auto ">
     <div class="relative usersection">
-        <h3 class="text-base pl-2 mb-5">Utilisateurs / Profil / @<b>Administrateur</b> </h3>
+        <h3 class="bounceslideInFromLeft text-2xl pl-2 mb-5 font-semibold">        <a href="{{ route('utilisateur.index') }}"  >
+            <i class="text-4xl bx bx-chevron-left"></i></a> Utilisateurs / <small>Profil / @<b>{{ $user->name }}</b></small></h3>
+    
             <div class="flex max-w-5xl gap-2">
 
                 <div class="bounceslideInFromLeft w-1/2 p-5 crud-card">
                     <h4 class="font-semibold">Information Personnel de l'utilisateur</h4>
                     <div class="my-5 flex justify-center items-center">
                         <div class="relative h-20 w-20">
-                            <img src="" alt="" id="pdp" class=" h-full w-full bg-gray-400 border border-gray-600 rounded-full">
+                            <img src="{{ asset('images/pdp/'.$user->pdp )}}"alt="{{ $user->name }} pdp"" alt="" id="pdp" class=" h-full w-full object-cover rounded-full bg-gray-400 border border-gray-600 rounded-full">
                         </div> 
                     </div>
                     <div class="mb-5 flex justify-start items-center">
                         <div class="w-1/12"><i class="">@</i></div>
-                        <span> Administrateur</span>
+                        <span> {{ $user->name }}</span>
                     </div>
                     <div class="mb-5 flex justify-start items-center">
                         <div class="w-1/12"><i class="bx bx-envelope"></i></div>
-                        <span> Administrateur@gmail.com</span>
+                        <span> {{ $user->email }}</span>
                     </div>
 
                     <div class="mb-5 flex justify-start items-center">
                         <div class="w-1/12"><i class="bx bx-badge"></i></div>
-                        <span>Administrateur</span>
+                        <span>{{ $user->role_user }}</span>
                     </div>
 
                     <div class="mb-5 flex justify-start items-center">
                         <div class="w-1/12"><i class="bx bx-phone"></i></div>
-                        <span>034 34 034 34</span>
+                        <span>{{ $user->tel_user }}</span>
                     </div>
                 </div>
 
-                <div class="bounceslideInFromRight w-1/2 p-5 grayscale crud-card">
+              
+                <div class="bounceslideInFromRight grayscale w-1/2 p-5 crud-card">
                     <h4 class="mb-5 font-semibold">Privilege</h4>
                     <div class="mb-5 flex justify-center items-center">
                         <h5 class="w-10/12">Super utilisateur</h5>
                         <div class="w-2/12">
                             <div class="flex justify-center items-center mb-2 prvlg-switcher">
-                                <input class="form-checkbox" type="checkbox" id="super-user" disabled  name="super-user" >
+                                <input disabled class="form-checkbox" type="checkbox" id="super-user" name="super-user" {{ $user->prvlg_super_user == 1 ? 'checked' : '' }}>
                                 <label class="ml-2" for="super-user"></label>
                             </div>
                         </div>
+                        
                     </div>
                     <div class="mb-5 flex justify-center items-center">
                         <h5 class="w-10/12">Gestion des taches</h5>
                         <div class="w-2/12">
                             <div class="flex justify-center items-center prvlg-switcher">
-                                <input class="form-checkbox" type="checkbox" id="tache" disabled  name="tache" >
+                                <input disabled class="form-checkbox" type="checkbox" id="tache" name="tache" {{ $user->prvlg_task == 1 ? 'checked' : '' }}>
                                 <label class="ml-2" for="tache"></label>
                             </div>
                         </div>
@@ -59,7 +63,7 @@
                             <div>Creation</div>
                             <div class="">
                                 <div class="flex justify-center items-center prvlg-switcher">
-                                    <input class="form-checkbox" type="checkbox" id="create-user" disabled  name="create-user" >
+                                    <input disabled class="form-checkbox" type="checkbox" id="create-user" name="create-user" {{ $user->prvlg_create_user == 1 ? 'checked' : '' }}>
                                     <label class="ml-2" for="create-user"></label>
                                 </div>
                             </div>
@@ -68,7 +72,7 @@
                             <div>Modification</div>
                             <div class="">
                                 <div class="flex justify-center items-center prvlg-switcher">
-                                    <input class="form-checkbox" type="checkbox" id="updat-user" disabled  name="updat-user" >
+                                    <input disabled class="form-checkbox" type="checkbox" id="updat-user" name="updat-user" {{ $user->prvlg_update_user == 1 ? 'checked' : '' }}>
                                     <label class="ml-2" for="updat-user"></label>
                                 </div>
                             </div>
@@ -77,7 +81,7 @@
                             <div>Suppression</div>
                             <div class="">
                                 <div class="flex justify-center items-center mb-2 prvlg-switcher">
-                                    <input class="form-checkbox" type="checkbox" id="del-user" disabled  name="del-user" >
+                                    <input disabled class="form-checkbox" type="checkbox" id="del-user" name="del-user" {{ $user->prvlg_delete_user == 1 ? 'checked' : '' }} >
                                     <label class="ml-2" for="del-user"></label>
                                 </div>
                             </div>
@@ -88,7 +92,7 @@
                         <h5 class="w-10/12">Gestion des membres</h5>
                         <div class="w-2/12">
                             <div class="flex justify-center items-center mb-2 prvlg-switcher">
-                                <input class="form-checkbox" type="checkbox" id="membre" disabled  name="membre" >
+                                <input disabled class="form-checkbox" type="checkbox" id="membre" name="membre" {{ $user->prvlg_membre == 1 ? 'checked' : '' }}>
                                 <label class="ml-2" for="membre"></label>
                             </div>
                         </div>
@@ -98,7 +102,7 @@
                         <h5 class="w-10/12">Gestion des project</h5>
                         <div class="w-2/12">
                             <div class="flex justify-center items-center mb-2 prvlg-switcher">
-                                <input class="form-checkbox" type="checkbox" id="project" disabled  name="project" >
+                                <input disabled class="form-checkbox" type="checkbox" id="project" name="project" {{ $user->prvlg_project == 1 ? 'checked' : '' }} >
                                 <label class="ml-2" for="project"></label>
                             </div>
                         </div>
@@ -108,7 +112,7 @@
                         <h5 class="w-10/12">Gestion des partenaires</h5>
                         <div class="w-2/12">
                             <div class="flex justify-center items-center mb-2 prvlg-switcher">
-                                <input class="form-checkbox" type="checkbox" id="partenaire" disabled  name="partenaire" >
+                                <input disabled class="form-checkbox" type="checkbox" id="partenaire" name="partenaire" {{ $user->prvlg_partenaire == 1 ? 'checked' : '' }}>
                                 <label class="ml-2" for="partenaire"></label>
                             </div>
                         </div>
@@ -120,7 +124,7 @@
                             <div>Creation</div>
                             <div class="">
                                 <div class="flex justify-center items-center prvlg-switcher">
-                                    <input class="form-checkbox" type="checkbox" id="create-blog" disabled  name="create-blog" >
+                                    <input disabled class="form-checkbox" type="checkbox" id="create-blog" name="create-blog" {{ $user->prvlg_create_blog == 1 ? 'checked' : '' }}>
                                     <label class="ml-2" for="create-blog"></label>
                                 </div>
                             </div>
@@ -129,7 +133,7 @@
                             <div>Modification</div>
                             <div class="">
                                 <div class="flex justify-center items-center prvlg-switcher">
-                                    <input class="form-checkbox" type="checkbox" id="updat-blog" disabled  name="updat-blog" >
+                                    <input disabled class="form-checkbox" type="checkbox" id="updat-blog" name="updat-blog" {{ $user->prvlg_update_blog == 1 ? 'checked' : '' }}>
                                     <label class="ml-2" for="updat-blog"></label>
                                 </div>
                             </div>
@@ -138,7 +142,7 @@
                             <div>Suppression</div>
                             <div class="">
                                 <div class="flex justify-center items-center mb-2 prvlg-switcher">
-                                    <input class="form-checkbox" type="checkbox" id="del-blog" disabled  name="del-blog" >
+                                    <input disabled class="form-checkbox" type="checkbox" id="del-blog" name="del-blog" {{ $user->prvlg_delete_blog == 1 ? 'checked' : '' }}>
                                     <label class="ml-2" for="del-blog"></label>
                                 </div>
                             </div>
@@ -147,100 +151,63 @@
                             <div>Approbation</div>
                             <div class="">
                                 <div class="flex justify-center items-center mb-2 prvlg-switcher">
-                                    <input class="form-checkbox" type="checkbox" id="approb-blog" disabled  name="approb-blog" >
+                                    <input disabled class="form-checkbox" type="checkbox" id="approb-blog" name="approb-blog" {{ $user->prvlg_approv_blog == 1 ? 'checked' : '' }}>
                                     <label class="ml-2" for="approb-blog"></label>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                </div>
+                 </div>
 
                 
             </div>
-            <div class="bounceslideInFromBottom w-full my-5 p-5 crud-card">
+            <div class="bounceslideInFromBottom  my-5 p-5 crud-card">
                 <h4 class="mb-5 font-semibold">Contribution</h4>
-                <div class="flex  justify-center items-center">
+                <div class="max-w-5xl flex mx-auto justify-center items-center">
                     <div class="w-1/3">
-                        <canvas height="200px" id="donutChart1" class="donut-chart  w-10 h-10"></canvas>
+                        <canvas id="donutChart1" class="donut-chart  w-5 h-5"></canvas>
                         <p>Contribution  <br>des blogs global</p>
                     </div>
                   
                     <div class="w-1/3">
-                        <canvas height="200px" id="donutChart2" class="donut-chart  w-10 h-10"></canvas>
+                        <canvas height="150px" id="donutChart2" class="donut-chart  w-5 h-5"></canvas>
                         <p>Contribution  <br>des blogs publiés global</p>
                     </div>
                     <div class="w-1/3">
-                        <canvas height="200px" id="donutChart3" class="donut-chart  w-10 h-10"></canvas>
+                        <canvas height="150px" id="donutChart3" class="donut-chart  w-5 h-5"></canvas>
                         <p>Contribution  <br>des blogs personnel</p>
                     </div>
                 </div>
              
             </div>
         
-            <a href="{{ route('utilisateur.index') }}" class="absolute -top-2 -left-10  "><i class="text-4xl bx bx-chevron-left"></i></a>
-        </div>
+           </div>
 
   
 </section>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const label = document.querySelector('label[for="user-pdp"]');
-        const inputFile = document.querySelector('input[type="file"]');
-        const pdpImage = document.getElementById('pdp');
 
-        label.addEventListener('click', function() {
-            inputFile.click();
-        });
-
-        inputFile.addEventListener('change', function() {
-            const selectedFile = this.files[0];
-            if (selectedFile) {
-                const reader = new FileReader();
-                reader.onload = function() {
-                    pdpImage.src = reader.result;
-                }
-                reader.readAsDataURL(selectedFile);
-            }
-        });
-    });
-</script>
             
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const passwordInput = document.getElementById('password');
-        const togglePassword = document.getElementById('togglePassword');
 
-        togglePassword.addEventListener('click', function() {
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-
-            const icon = this.querySelector('i');
-            icon.classList.toggle('bx-low-vision');
-            icon.classList.toggle('bx-show');
-        });
-    });
-</script>
 
 <script>
     const data1 = {
         datasets: [{
-            data: [30, 40, 30],
-            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+            data: [{{ $personalBlog }},{{ $otherBlog }}],
+            backgroundColor: ['#FF6384', 'gray']
         }]
     };
 
     const data2 = {
         datasets: [{
-            data: [20, 50, 30],
-            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+            data: [{{ $personalPublishBlog }}, {{ $otherPublishBlog }}],
+            backgroundColor: ['#FF6384', 'gray']
         }]
     };
 
     const data3 = {
         datasets: [{
-            data: [20, 50, 30],
-            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+            data: [{{ $personalPublishBlog }}, {{ $personalNotPublishBlog }}],
+            backgroundColor: ['#FF6384', 'gray']
         }]
     };
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blog;
+use App\Models\Historique;
 use App\Models\publication;
 use App\Models\User;
 use Illuminate\Foundation\Auth\User as AuthUser;
@@ -15,8 +17,8 @@ class UserController extends Controller
         $perPage = 10;
         if (!empty($keyword)) {
             $user = User::select('users.id','users.name','users.email','users.status_user','users.role_user','users.pdp')
-                ->selectRaw('DATEDIFF(CURDATE(), users.created_at) AS anciennete') 
-                ->where("users.name", "LIKE", "%$keyword%")         
+                ->selectRaw('DATEDIFF(CURDATE(), users.created_at) AS anciennete')
+                ->where("users.name", "LIKE", "%$keyword%")
                 ->orWhere("users.role_user", "LIKE", "%$keyword%")
                 ->orderBy('users.id', 'desc')
                 ->paginate($perPage);
@@ -27,7 +29,7 @@ class UserController extends Controller
             ->paginate($perPage);
         }
 
-   
+
         return view('user.index',['utilisateur' => $user]) ->with('i', (request()->input('page', 1) -1) *5);
     }
 
@@ -44,10 +46,36 @@ class UserController extends Controller
     }
 
 
-    public function profil()
+    public function profil($id)
     {
-        return view('user.profil');
+        $user = User::findOrFail($id);
+
+        $personalBlog = Blog::where('user_id', $id)->count();
+        $otherBlog = Blog::where('user_id', '!=', $id)->count();
+
+        $personalPublishBlog = Blog::where('user_id', $id)
+            ->where('status_blog', 'Publier')
+            ->count();
+
+        $otherPublishBlog = Blog::where('user_id', '!=', $id)
+            ->where('status_blog', 'Publier')
+            ->count();
+
+        $personalNotPublishBlog = Blog::where('user_id', $id)
+            ->where('status_blog', '!=', 'Publier')
+            ->count();
+
+        // Passez les données à la vue
+        return view('user.profil', [
+            'user' => $user,
+            'personalBlog' => $personalBlog,
+            'otherBlog' => $otherBlog,
+            'personalPublishBlog' => $personalPublishBlog,
+            'otherPublishBlog' => $otherPublishBlog,
+            'personalNotPublishBlog' => $personalNotPublishBlog,
+        ]);
     }
+
 
 
 
@@ -55,12 +83,12 @@ class UserController extends Controller
     {
        $request->validate([
             'user-name' => 'required',
-            'user-mdp' => 'required|min:4',
-            'user-pdp' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+            'user-mdp' => 'required|min:3',
+            'user-pdp' => 'image|mimes:jpeg,png,jpg,gif'
         ]);
-    
+
         $user = new User();
-    
+
         if ($request->hasFile('user-pdp') && $request->file('user-pdp')->isValid()) {
             $file_name = time() . '.' . $request->file('user-pdp')->getClientOriginalExtension();
             $request->file('user-pdp')->move(public_path('images/pdp'), $file_name);
@@ -68,7 +96,7 @@ class UserController extends Controller
         } else {
             $user->pdp = 'images/pdp/nopdp.png';
         }
-    
+
         $user->email = $request->input('user-mail') . $request->input('user-mail-adresse');
         $user->name = $request->input('user-name');
         $user->password = bcrypt($request->input('user-mdp'));
@@ -89,27 +117,35 @@ class UserController extends Controller
         $user->prvlg_delete_blog = $request->has('del-blog');
         $user->prvlg_update_blog = $request->has('updat-blog');
         $user->prvlg_approv_blog = $request->has('approb-blog');
-    
+        $historique = $request->input('the_user') . " a ajouter l'utilisateur '" . $user->name . "'";
+
+        $histo = new Historique();
+        $histo->descri_histo = $historique;
+        $histo->save();
         $user->save();
-    
+
         return redirect()->route('utilisateur.index')->with('success', 'Utilisateur créé avec succès');
     }
-    
-    public function destroy($id){
+
+    public function destroy(Request $request,$id){
         $user= User::findOrFail($id);
-        $image_path = public_path()."/images/pdp/";  
+        $image_path = public_path()."/images/pdp/";
         $image= $image_path. $user->pdp;
         if(file_exists($image)){
             @unlink($image);
         }
-    
+        $historique = $request->input('the_user') . " a supprimer l'utilisateur '" . $user->name . "'";
+
+        $histo = new Historique();
+        $histo->descri_histo = $historique;
+        $histo->save();
         $user->delete();
         return redirect('utilisateur')->with('success','Utilisateur supprimer!');
     }
 
 
     public function update(Request $request, User $user){
-        
+
         $request->validate([
             'user-name'=>'required'
         ]);
@@ -117,9 +153,9 @@ class UserController extends Controller
          if ($request->hasFile('user-pdp') && $request->file('user-pdp')->isValid()) {
             $file_name = time() . '.' . $request->file('user-pdp')->getClientOriginalExtension();
             $request->file('user-pdp')->move(public_path('images/pdp'), $file_name);
-         
+
         } else {
-            $file_name =$request->hidden_user_pdp; 
+            $file_name =$request->hidden_user_pdp;
         }
 
         $user= User::find($request->hidden_id);
@@ -140,7 +176,11 @@ class UserController extends Controller
         $user->prvlg_delete_blog = $request->has('del-blog');
         $user->prvlg_update_blog = $request->has('updat-blog');
         $user->prvlg_approv_blog = $request->has('approb-blog');
-  
+        $historique = $request->input('the_user') . " a mis a jour l'utilisateur '" . $user->name . "'";
+
+        $histo = new Historique();
+        $histo->descri_histo = $historique;
+        $histo->save();
         $user->save();
 
         return redirect()->route('utilisateur.index')->with('success', 'Utilisateur modifier avec succes');
@@ -148,20 +188,21 @@ class UserController extends Controller
 
 
 
+
   /*   public function show($id) {
         $utilisateur = User::findOrFail($id);
-    
+
         $countUtilisateurCreation = publication::where('id_user', '=', $id)->count();
         $countAllCreation = publication::count();
-    
+
         $countUtilisateurPublication = publication::where('status_publi', 'LIKE', 'Publier')
                                                 ->where('id_user', '=', $id)
                                                 ->count();
         $countAllPublication = publication::where('status_publi', 'LIKE', 'Publier')->count();
-    
+
         return view('utilisateur.profil', ['utilisateur' => $utilisateur,'countUtilisateurCreation' => $countUtilisateurCreation,'countAllCreation' => $countAllCreation,'countUtilisateurPublication' => $countUtilisateurPublication,'countAllPublication' => $countAllPublication,]);
     }
-    
+
     public function mode(Request $request, User $utilisateur){
 
 
@@ -179,12 +220,12 @@ class UserController extends Controller
 
 
     public function theme(Request $request, User $utilisateur){
-        $utilisateur =User::find($request->hidden_id);       
+        $utilisateur =User::find($request->hidden_id);
         $theme=$request->hidden_theme;
         $utilisateur->theme_user=$theme;
         $utilisateur->save();
         return back();
-    } 
+    }
 
  */
 }

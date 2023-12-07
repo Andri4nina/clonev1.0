@@ -3,7 +3,10 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "builds": "tailwindcss build ./path/to/your/input.css -o ./path/to/your/output.css"
+
+
     },
     "devDependencies": {
         "autoprefixer": "^10.4.14",

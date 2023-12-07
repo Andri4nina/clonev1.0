@@ -11,6 +11,7 @@ class Photo extends Model
     protected $fillable = [
         'img',
         'blogs_id',
-        'galerie_id' 
+        'galerie_id', 
+        'project_id' 
     ];
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Historique;
 use App\Models\Membre;
 use Illuminate\Http\Request;
 
@@ -59,7 +60,11 @@ class MembersController extends Controller
         $membre->poste_membre = $request->input('membre-poste');
         $membre->date_adhesion_membre = $request->input('membre-adhesion');
        
-    
+        $historique = $request->input('the_user') . " a ajouter le membre '" . $membre->nom_membre . "'";
+      
+        $histo = new Historique();
+       $histo->descri_histo = $historique;
+       $histo->save();
         $membre->save();
     
         return redirect()->route('membre.index')->with('success', 'Membre créé avec succès ,Souhaiton sa bienvenue');
@@ -91,21 +96,35 @@ class MembersController extends Controller
         $membre->poste_membre = $request->input('membre-poste');
         $membre->date_adhesion_membre = $request->input('membre-adhesion');
        
+        $historique = $request->input('the_user') . " a mis a jour le membre '" . $membre->nom_membre . "'";
+      
+        $histo = new Historique();
+        $histo->descri_histo = $historique;
+        $histo->save();
+        $membre->save();
     
         $membre->save();
     
         return redirect()->route('membre.index')->with('success', 'Membre modifier avec succès');
     }
 
-    public function destroy($id){
+    public function destroy(Request $request, $id){
         $membre= Membre::findOrFail($id);
         $image_path = public_path()."/images/pdp/";  
         $image= $image_path. $membre->pdp;
         if(file_exists($image)){
             @unlink($image);
         }
+        $historique = $request->input('the_user') . " a supprimer le membre '" . $membre->nom_membre . "'";
+      
+        $histo = new Historique();
+        $histo->descri_histo = $historique;
+        $histo->save();
+        $membre->save();
     
         $membre->delete();
         return redirect('membre')->with('success','Membre supprimer!');
     }
+
+    
 }

@@ -3,14 +3,14 @@
 
       <div class=" flex gap-2 justify-center items-center text-sm font-bold ">
         <div>
-          {{\Illuminate\Support\Facades\Auth::user()->name }} 
+          {{\Illuminate\Support\Facades\Auth::user()->name }}
         </div>
         <div>
           <div class="bg-green-600 w-3 h-3 rounded-full userstatus"></div>
         </div>
-       
+
       </div>
-    
+
       <div class="bg-blue-600 w-10 h-10 rounded-full overflow-hidden">
         <img src="{{ asset('images/pdp/' . Illuminate\Support\Facades\Auth::user()->pdp) }}" alt="" class="w-full h-full object-cover">
       </div>
@@ -25,7 +25,7 @@
     <div>
       <h3 class="text-base font-extrabold text-center ">Hope for a future <br>
         <small>-Madagascar-</small>
-        </h3> 
+        </h3>
     </div>
   </div>
 
@@ -81,22 +81,22 @@
               </a>
             </li>
             <li class="px-5 menu-item">
-              <a href="#publication" class="relative flex gap-3 items-center px-2 py-5 text-sm menu-link">
+              <a href="{{ route('message.index') }}" class="relative flex gap-3 items-center px-2 py-5 text-sm menu-link">
                 <i class="text-2xl menu-icon tf-icons bx bx-message-add"></i>
                 <div class="text-sm">Message</div>
                 <span class="text-white text-xs absolute right-2 bg-red-600 h-5 w-5 text-center rounded-full">25</span>
               </a>
             </li>
             <li class="px-5 menu-item">
-              <a href="##" class="flex gap-3 items-center px-2 py-5 text-sm menu-link">
+              <a href="{{ route('historique.index')}}" class="flex gap-3 items-center px-2 py-5 text-sm menu-link">
                 <i class="text-2xl menu-icon tf-icons bx bx-history"></i>
                 <div class="text-sm">Historique</div>
               </a>
             </li>
             <li class="px-5 menu-item">
-              <a href="##" class="flex gap-3 items-center px-2 py-5 text-sm menu-link">
+              <a href="{{ route('galerie.index')}}" class="flex gap-3 items-center px-2 py-5 text-sm menu-link">
                 <i class="text-2xl menu-icon tf-icons bx bxs-image"></i>
-                <div class="text-sm">Gallerie</div>
+                <div class="text-sm">Galerie</div>
               </a>
             </li>
             <li class="px-5 menu-item">
@@ -105,7 +105,7 @@
                 <div class="text-sm">Archive</div>
               </a>
             </li>
-          
+
             <br>
             <hr>
             <br>
@@ -138,8 +138,8 @@
                 <div class="text-sm">Parametre</div>
               </a>
             </li>
-          
-          
+
+
             <br>
             <hr>
             <br>
@@ -157,7 +157,7 @@
             </li>
           </ul>
       </div>
-      
+
   </div>
 
 <script>
@@ -171,9 +171,9 @@
   const mode = document.querySelector('.mode');
   const modeIcon = document.querySelector('.mode i');
   mode.addEventListener('click', () => {
-  
+
     document.body.classList.toggle('dark');
-  
+
     if (document.body.classList.contains('dark')) {
       modeIcon.classList.add('bx-moon');
       modeIcon.classList.remove('bx-sun');
@@ -199,7 +199,7 @@ colors.forEach(color => {
 
     const colorID = color.id;
 
-    
+
     document.body.classList.remove('bleu', 'rouge', 'vert', 'jaune', 'rose');
     document.body.classList.add(colorID);
   });
@@ -211,24 +211,24 @@ colors.forEach(color => {
           // Récupérer les valeurs mode_user et theme_user
           const modeUser = "{{ \Illuminate\Support\Facades\Auth::user()->mode_user }}";
           const themeUser = "{{ \Illuminate\Support\Facades\Auth::user()->theme_user }}";
-      
+
           // Stocker les valeurs dans le localStorage
           localStorage.setItem('mode_user', modeUser);
           localStorage.setItem('theme_user', themeUser);
       </script>
       <script>
-        
+
         window.addEventListener('DOMContentLoaded', () => {
           const mode = document.querySelector('.mode');
           const modeIcon = document.querySelector('.mode i');
-      
-   
+
+
           const storedMode = localStorage.getItem('mode_user');
           const storedTheme = localStorage.getItem('theme_user');
-      
-    
+
+
           document.body.classList.add(storedTheme);
-      
+
           if (storedMode === 'dark') {
             document.body.classList.add('dark');
             modeIcon.classList.add('bx-moon');
@@ -241,8 +241,8 @@ colors.forEach(color => {
             modeIcon.classList.remove('text-blue-600');
             modeIcon.classList.add('text-yellow-400');
           }
-      
-          
+
+
         });
       </script>
 

@@ -7,7 +7,9 @@
   @vite('resources/css/app.css')
   <link rel="icon" href="{{asset( 'images/Logo-MEH.ico') }}" type="image/x-icon">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>  
- 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+   
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
 
 
 </head>

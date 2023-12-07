@@ -1,9 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<section class=" block w-10/12 mx-auto ">
+<section class=" block max-w-6xl w-full mx-auto ">
     <div class="relative usersection">
-        <h3 class="text-base pl-2 mb-5">Utilisateurs / Creation</h3>
+        <h3 class="bounceslideInFromLeft text-2xl pl-2 mb-5 font-semibold">        <a href="{{ route('utilisateur.index') }}"  >
+            <i class="text-4xl bx bx-chevron-left"></i></a> Utilisateurs / <small> Creation </small></h3>
+
         <form action="{{ route('utilisateur.store')}}" method="POST"  enctype="multipart/form-data">
             @csrf
 
@@ -21,18 +23,18 @@
                       toast.addEventListener('mouseleave', Swal.resumeTimer)
                     }
                   })
-                  
+
                   Toast.fire({
                     icon: 'warning',
                     title: 'Veuillez remplir les champs obligatoires'
                   })
             </script>
-               
-            @endif 
 
-            <div class="flex max-w-5xl gap-2">
+            @endif
 
-                <div class="bounceslideInFromLeft w-1/2 p-5 crud-card">
+            <div class="mx-auto block md:flex max-w-5xl gap-2">
+
+                <div class="bounceslideInFromLeft w-full md:w-1/2 p-5 crud-card">
                     <h4 class="font-semibold">Information Personnel de l'utilisateur</h4>
                     <div class="my-5 flex justify-center items-center">
                         <div class="relative h-20 w-20">
@@ -41,7 +43,7 @@
                             <div class="hidden">
                                 <input type="file" name="user-pdp" accept="images/*" >
                             </div>
-                        </div> 
+                        </div>
                     </div>
                     <div class="mb-5  flex justify-center items-center input-field">
                         <div class="w-1/12"><i class="">@</i></div>
@@ -52,6 +54,8 @@
                         <input type="password" name='user-mdp' id="password" placeholder="mot de passe" class="w-10/12 bg-none">
                         <div class="w-1/12 cursor-pointer" id="togglePassword"><i class="bx bx-low-vision"></i></div>
                     </div>
+                    <input type="hidden" name="the_user" value=" {{\Illuminate\Support\Facades\Auth::user()->name}}">
+
                     <div class="mb-5 flex justify-center items-center input-field">
                         <div class="w-1/12"><i class="bx bx-envelope"></i></div>
                         <input type="text" name='user-mail' placeholder="Exemple.exemple" value="{{ old('user-mail') }}" class="w-6/12  bg-none">
@@ -67,7 +71,7 @@
                     </div>
                 </div>
 
-                <div class="bounceslideInFromRight w-1/2 p-5 crud-card">
+                <div class="bounceslideInFromRight w-full mt-5 md:mt-0 md:w-1/2 p-5 crud-card">
                     <h4 class="mb-5 font-semibold">Privilege</h4>
                     <div class="mb-5 flex justify-center items-center">
                         <h5 class="w-10/12">Super utilisateur</h5>
@@ -88,8 +92,8 @@
                         </div>
                     </div>
                     <h5 class="w-10/12">Gestion des utilisateurs</h5>
-                    <div class="mb-5 flex justify-center items-center">
-                        <div class="w-1/2  mt-5 flex justify-center items-center">
+                    <div class=" mb-5 block sm:flex justify-end sm:justify-center  sm:items-center">
+                        <div class="w-1/2  mt-5 sm:flex justify-end sm:justify-center items-center">
                             <div>Creation</div>
                             <div class="">
                                 <div class="flex justify-center items-center prvlg-switcher">
@@ -98,7 +102,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="w-1/2 mt-5 flex justify-center items-center">
+                        <div class="w-1/2 mt-5 sm:flex justify-end sm:justify-centeritems-center">
                             <div>Modification</div>
                             <div class="">
                                 <div class="flex justify-center items-center prvlg-switcher">
@@ -107,7 +111,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="w-1/2 mt-5 flex justify-center items-center">
+                        <div class="w-1/2 mt-5 sm:flex justify-end sm:justify-center items-center">
                             <div>Suppression</div>
                             <div class="">
                                 <div class="flex justify-center items-center mb-2 prvlg-switcher">
@@ -117,7 +121,7 @@
                             </div>
                         </div>
                     </div>
-                
+
                     <div class="mb-5 flex justify-center items-center">
                         <h5 class="w-10/12">Gestion des membres</h5>
                         <div class="w-2/12">
@@ -187,16 +191,22 @@
                             </div>
                         </div>
                     </div>
-
-                    <button class="float-right mb-5 bg-green-500 hover:bg-green-600 text-white">Enregistrer</button>
+                    @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_create_user == "1"))
+                    <div class="mt-5 flex w-full justify-center md:justify-end ">
+                        <button class=" mb-5 bg-green-500 hover:bg-green-600 text-white">Enregistrer</button>
+                    </div>
+                    @else
+                    <div class="mt-5 flex w-full justify-center md:justify-end ">
+                        <button class=" grayscale mb-5 bg-green-500 hover:bg-green-600 text-white" disabled>Enregistrer</button>
+                    </div>
+                    @endif
                 </div>
 
             </div>
         </form>
-        <a href="{{ route('utilisateur.index') }}" class="absolute -top-2 -left-10  "><i class="text-4xl bx bx-chevron-left"></i></a>
-    </div>
+      </div>
 
-  
+
 </section>
 
 
@@ -223,7 +233,7 @@
         });
     });
 </script>
-            
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const passwordInput = document.getElementById('password');

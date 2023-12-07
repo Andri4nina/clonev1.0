@@ -1,44 +1,97 @@
 @extends('layouts.app')
 
 @section('content')
-<section class=" block w-10/12 mx-auto ">
+<section class=" block max-w-6xl w-full mx-auto ">
     <div class="relative usersection">
-        <h3 class="text-base pl-2 mb-5">Project / Appercu </h3>
+        <h3 class="bounceslideInFromLeft text-2xl pl-2 mb-5 font-semibold">        <a href="{{ route('project.index') }}"  ><i class="text-4xl bx bx-chevron-left"></i></a> Project / <small>Appercu</small></h3>
 
-        <h5 class="pl-2 mb-5">Appercu</h5>
-        <h6 class="mb-5">Sur la page d'acceuil</h6>
-        <div class="project-container">
-            <h1 class=" text-2xl font-semibold ">Titre du Projet</h1>
-            <p class="p-5 text-base project-label">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos minima optio labore recusandae placeat? Ratione et, 
-                cumque repellat quo modi fugiat est, ad officiis architecto distinctio 
-                nulla voluptatum aliquid optio!</p>
+        @if ($message = Session::get('success'))
+        <script type="text/javascript">
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: '{{ $message }}'
+            })
+        </script>
+    @endif
+        <div class="bounceslideInFromRight project-container">
+            <h1 class=" text-2xl font-semibold ">{{ $project->titre_project }}</h1>
+            <p class="p-5 text-base project-label">
+                {{ $project->contenu_project }}
+            </p>
             <h4 class="project-activity">Zone d'Activité</h4>
-            <span>Antananarivo Ivato</span>
+            <span>{{ $project->zone_project }}</span>
             <div class="my-5 project-gallery">
                 <div class="image-accordion">
-                    <figure class="selected-image">
-                        <img src="https://images.unsplash.com/photo-1559305289-4c31700ba9cb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1073&q=80"
-                            alt="image">
-                    </figure>
-                    <figure>
-                        <img src="https://images.unsplash.com/photo-1582880421648-a7154a8c99c1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80"
-                            alt="img">
-                    </figure>
-                    <figure>
-                        <img src="https://images.unsplash.com/photo-1536418138303-bac5f6eaa12b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                            alt="img">
-                    </figure>
-                    <figure>
-                        <img src="https://images.unsplash.com/photo-1567322679836-1830edd0e80b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                            alt="img">
-                    </figure>
+                    @foreach  ($photos as $key => $photo)
+                        <figure class="{{ $key === 0 ? 'selected-image' : '' }}">
+                            <img src="{{ asset($photo->img) }}"
+                                alt="image">
+                        </figure>
+                    @endforeach
                 </div>
             </div>
-        </div>
-        <a href="{{ route('blog.index') }}" class="absolute -top-2 -left-10  "><i class="text-4xl bx bx-chevron-left"></i></a>
-    </div>
 
-  
+
+            <div class="block sm:flex gap-2 relative mt-20">
+                <ul class="w-full sm:w-1/2 list_obj">
+                    @foreach ($objectif as $key => $obj)
+                        <li class="relative px-2">
+                            <label class=" items-center align-middle text-lg pl-8 cursor-pointer ">
+                               <span class="translate-y-2"> {{ $obj->libelle_obj }}</span>
+                               @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_partenaire == "1"))
+                                   <form action="{{ route('project.objectif')}}" method="POST" class="checkeranim">
+                                    @csrf
+                                    <input type="hidden" name="hidden_id_pro" value="{{ $project->id }}">
+                                    <input type="hidden" name="hidden_id" value="{{ $obj->id }}">
+                                    <input type="checkbox" name="status" class="opacity-0 cursor-pointer statusCheckbox" onclick="doneConfirm(event)" @if ($obj->status_obj == 'Done') checked @endif>
+                                    <span class="checker"></span>
+                                </form>
+                                @else
+                                    <input disabled type="checkbox" name="status" class="grayscale opacity-0 cursor-pointer statusCheckbox" onclick="doneConfirm(event)" @if ($obj->status_obj == 'Done') checked @endif>
+                                    <span class=" checker"></span>
+                                @endif
+
+                            </label>
+                        </li>
+                    @endforeach
+                </ul>
+                <div class="w-full sm:w-1/2 h-auto">
+                    <div class="single-chart">
+                        <svg viewBox="0 0 36 36" class="circular-chart green">
+                          <path class="circle-bg"
+                            d="M18 2.0845
+                              a 15.9155 15.9155 0 0 1 0 31.831
+                              a 15.9155 15.9155 0 0 1 0 -31.831"
+                          />
+                          <path class="circle"
+                            stroke-dasharray="{{ $percentDone }}, 100"
+                            d="M18 2.0845
+                              a 15.9155 15.9155 0 0 1 0 31.831
+                              a 15.9155 15.9155 0 0 1 0 -31.831"
+                          />
+                          <text x="18" y="20.35" class="percentage">{{ $percentDone }}%</text>
+                        </svg>
+                      </div>
+
+                </div>
+
+            </div>
+        </div>
+   </div>
+
+
 </section>
 
 
@@ -51,11 +104,54 @@
             const clickParent = event.target.parentNode;
             clickParent.classList.add("selected-image");
         }
-    
+
     })
 </script>
 
-            
+<script>
+    window.doneConfirm = function(e) {
+        var form = e.target.form;
+        var checkbox = form.querySelector('[name="status"]');
+        var statusCheckbox = document.getElementById('statusCheckbox');
+
+
+       if (checkbox.checked==true) {
+               Swal.fire({
+                   title: "Etes vous sur d'avoir atteint cette objectif ?",
+                   icon: 'warning',
+                   showCancelButton: true,
+                   confirmButtonColor: '#1F9B4F',
+                   cancelButtonColor: '#d33',
+                   confirmButtonText: 'Oui!',
+                   cancelButtonText: 'Annuler'
+               }).then((result) => {
+                   if (result.isConfirmed) {
+                   form.submit();
+                   }else{
+                       checkbox.checked = false;
+                   }
+               })
+           }else{
+               Swal.fire({
+                   title: "Etes vous sur que cette objectif n'est pas atteint?",
+                   text:'vous pouvez toujours publier ce project',
+                   icon: 'warning',
+                   showCancelButton: true,
+                   confirmButtonColor: '#1F9B4F',
+                   cancelButtonColor: '#d33',
+                   confirmButtonText: 'Oui!',
+                   cancelButtonText: 'Annuler'
+               }).then((result) => {
+                   if (result.isConfirmed) {
+                   form.submit();
+                   }else{
+                       checkbox.checked = true;
+                   }
+               })
+           }
+       }
+
+</script>
 
 
 

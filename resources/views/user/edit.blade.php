@@ -1,15 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="relative block w-10/12 mx-auto ">
+<section class=" block max-w-6xl w-full mx-auto ">
     <div class="relative usersection">
-        <h3 class="text-base pl-2 mb-5">Utilisateurs / Modification / @<b>{{ $user->name }}</b> </h3>
+        <h3 class="bounceslideInFromLeft text-2xl pl-2 mb-5 font-semibold">        <a href="{{ route('utilisateur.index') }}"  >
+            <i class="text-4xl bx bx-chevron-left"></i></a> Utilisateurs / <small> Modification / @<b>{{ $user->name }}</b></small></h3>
+
         <form action="{{ route('utilisateur.update') }}" method="post" enctype="multipart/form-data">
             @csrf
 
 
-
-            <div class="flex max-w-5xl gap-2">
+            <input type="hidden" name="the_user" value=" {{\Illuminate\Support\Facades\Auth::user()->name}}">
+            <div class="mx-auto block md:flex max-w-5xl gap-2">
                 @if ($errors->any())
                 <script type="text/javascript">
                     const Toast = Swal.mixin({
@@ -23,25 +25,25 @@
                           toast.addEventListener('mouseleave', Swal.resumeTimer)
                         }
                       })
-                      
+
                       Toast.fire({
                         icon: 'warning',
                         title: 'Veuillez remplir les champs obligatoires'
                       })
                 </script>
-                   
-                @endif 
-                <div class="bounceslideInFromLeft w-1/2 p-5 crud-card">
+
+                @endif
+                <div class="bounceslideInFromLeft w-full md:w-1/2 p-5 crud-card">
                     <h4 class="font-semibold">Information Personnel de l'utilisateur</h4>
                     <div class="my-5 flex justify-center items-center">
                         <div class="relative h-20 w-20">
-                            <img src="{{ asset('images/pdp/'.$user->pdp )}}" alt="" id="pdp" class=" h-full w-full object-cover rounded-full">
+                            <img src="{{ asset('images/pdp/'.$user->pdp )}}" alt="" id="pdp" class="nopdpimg h-full w-full object-cover rounded-full">
                             <label class="cursor-pointer absolute bottom-0 right-0" for="user-pdp"><i class="text-white bg-gray-600 border border-gray-600 rounded-full bx bx-camera"></i></label>
                             <div class="hidden">
                                 <input type="hidden" name='hidden_user_pdp' value="{{ $user->pdp}}">
                                 <input type="file" name="user-pdp" accept="images/*" >
                             </div>
-                        </div> 
+                        </div>
                     </div>
                     <div class="mb-5  flex justify-center items-center input-field">
                         <div class="w-1/12"><i class="">@</i></div>
@@ -54,18 +56,18 @@
                         <script>
                             // Fonction pour diviser l'adresse e-mail
                             function splitEmail() {
-                                var email = "{{ $user->email }}"; 
+                                var email = "{{ $user->email }}";
                                 var parts = email.split('@');
-                    
+
                                 // Assigne chaque partie à un champ
                                 document.querySelector('input[name="user-mail"]').value = parts[0];
                                 document.querySelector('input[name="user-mail-adresse"]').value = '@' + parts[1];
                             }
-                   
+
                             window.onload = splitEmail;
                         </script>
                     </div>
-                    
+
                     <div class="mb-5  flex justify-center items-center input-field">
                         <div class="w-1/12"><i class="bx bx-badge"></i></div>
                         <input type="text" name='user-role' placeholder="Role" class="w-11/12 bg-none" value='{{ $user->role_user }}'>
@@ -76,7 +78,7 @@
                     </div>
                 </div>
 
-                <div class="bounceslideInFromRight w-1/2 p-5 crud-card">
+                <div class="bounceslideInFromRight w-full mt-5 md:mt-0 md:w-1/2 p-5 crud-card">
                     <h4 class="mb-5 font-semibold">Privilege</h4>
                     <div class="mb-5 flex justify-center items-center">
                         <h5 class="w-10/12">Super utilisateur</h5>
@@ -86,7 +88,7 @@
                                 <label class="ml-2" for="super-user"></label>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="mb-5 flex justify-center items-center">
                         <h5 class="w-10/12">Gestion des taches</h5>
@@ -98,8 +100,8 @@
                         </div>
                     </div>
                     <h5 class="w-10/12">Gestion des utilisateurs</h5>
-                    <div class="mb-5 flex justify-center items-center">
-                        <div class="w-1/2  mt-5 flex justify-center items-center">
+                    <div class="mb-5 block sm:flex justify-center items-center">
+                        <div class="w-1/2  mt-5 sm:flex justify-end sm:justify-center items-center">
                             <div>Creation</div>
                             <div class="">
                                 <div class="flex justify-center items-center prvlg-switcher">
@@ -108,7 +110,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="w-1/2 mt-5 flex justify-center items-center">
+                        <div class="w-1/2  mt-5 sm:flex justify-end sm:justify-center items-center">
                             <div>Modification</div>
                             <div class="">
                                 <div class="flex justify-center items-center prvlg-switcher">
@@ -117,7 +119,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="w-1/2 mt-5 flex justify-center items-center">
+                        <div class="w-1/2  mt-5 sm:flex justify-end sm:justify-center items-center">
                             <div>Suppression</div>
                             <div class="">
                                 <div class="flex justify-center items-center mb-2 prvlg-switcher">
@@ -127,7 +129,7 @@
                             </div>
                         </div>
                     </div>
-                
+
                     <div class="mb-5 flex justify-center items-center">
                         <h5 class="w-10/12">Gestion des membres</h5>
                         <div class="w-2/12">
@@ -199,15 +201,22 @@
                     </div>
                     <input type="hidden" name="hidden_id" value='{{ $user->id }}'>
 
-                    <button class="float-right mb-5 bg-green-500 hover:bg-green-600 text-white">Enregistrer</button>
+                    @if (Auth::user()->prvlg_super_user == "1"||(Auth::user()->prvlg_create_user == "1"))
+                    <div class="mt-5 flex w-full justify-center md:justify-end ">
+                        <button class=" mb-5 bg-green-500 hover:bg-green-600 text-white">Enregistrer</button>
+                    </div>
+                    @else
+                    <div class="mt-5 flex w-full justify-center md:justify-end ">
+                        <button class=" grayscale mb-5 bg-green-500 hover:bg-green-600 text-white" disabled>Enregistrer</button>
+                    </div>
+                    @endif
                 </div>
 
             </div>
         </form>
-        <a href="{{ route('utilisateur.index') }}" class="absolute -top-2 -left-10  "><i class="text-4xl bx bx-chevron-left"></i></a>
-    </div>
+       </div>
 
-  
+
 </section>
 
 
@@ -234,7 +243,7 @@
         });
     });
 </script>
-            
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const passwordInput = document.getElementById('password');

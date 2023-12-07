@@ -22,8 +22,8 @@ return new class extends Migration
             $table->char('status_user', 15)->default('hors-ligne');
             $table->char('theme_user', 10)->default('bleu');
             $table->char('mode_user', 10)->default('light');
-            $table->char('role_user', 50)->unique();
-            $table->char('tel_user', 25)->unique();
+            $table->char('role_user', 50);
+            $table->char('tel_user', 25);
             $table->boolean('prvlg_super_user')->default(false);
             $table->boolean('prvlg_task')->default(false);
             $table->boolean('prvlg_create_user')->default(false);
