@@ -361,7 +361,7 @@
                             <li class="text-xs my-5 flex justify-between ">
                                 <div class="flex gap-2 justify-center items-center">
                                     <div class="overflow-hidden  w-10 h-10 rounded-full">
-                                        <img src="{{ asset('images/pdp/'.$user->pdp )}}" alt="" class="object-cover w-full h-full">
+                                        <img src="{{ asset('images/pdp/'.$user->pdp )}}" alt="" class="object-cover w-full h-full nopdpimg">
                                     </div>
                                     <div>
                                         {{ $user->name }}
@@ -380,12 +380,6 @@
                                 </div>
                             </li>
                         @endforeach
-
-
-
-
-
-
                     </ul>
                 </div>
             </div>
@@ -397,7 +391,7 @@
                         @foreach ($tache as $task )
                         @if ( $task->status_task =='En revision' )
                             <li class="bg-red-900 rounded-md p-5 text-xs flex justify-between task-agree">
-                                <div>{{$task->libelle_task}}</div>
+                                <div class="text-white">{{$task->libelle_task}}</div>
                                 <form action="{{ route('tache.progress',$task->id) }}" method="POST" >
                                     @csrf
                                     <input type="hidden" name="the_user" value=" {{\Illuminate\Support\Facades\Auth::user()->name}}">
@@ -410,6 +404,9 @@
                                 <div>{{$task->libelle_task}}</div>
                                 <form action="{{ route('tache.progress',$task->id) }}" method="POST" >
                                     @csrf
+                                    <input type="hidden" name="the_user" value=" {{\Illuminate\Support\Facades\Auth::user()->name}}">
+
+
                                     <button onclick="progress(event)"><i class="text-gray-500 bx bx-check"></i></button>
                                 </form>
                             </li>

@@ -28,7 +28,7 @@
 
 
 
-    <footer class="text-center m-10 mb-5">
+     <footer class="text-center mt-10 mb-5">
       {{ view('layouts.footer') }}
     </footer>
 

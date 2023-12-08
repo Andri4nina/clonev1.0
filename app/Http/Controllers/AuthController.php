@@ -15,45 +15,47 @@ class AuthController extends Controller
     // Affiche le formulaire de connexion
     public function login()
     {
-        return view('auth.login'); 
-    }   
+        return view('auth.login');
+    }
     // Processus de connexion
     public function doLogin(LoginRequest $request)
     {
         $authCredentials = $request->validated();
        /*  dd($request->all()); */
-    
+
         if (Auth::attempt($authCredentials)) {
             $request->session()->regenerate();
-    
+
             $user = Auth::user();
             $user->status_user = 'en ligne';
             $user->save();
             return redirect()->route("dashboard.index");
         }
-    
+
         return redirect()->route('auth.login')->withErrors([
             'user-email' => 'Invalide',
         ]);
     }
-    
+
 
 
 
    // Gère le processus de déconnexion
    public function logout(Request $request): RedirectResponse
-   {   
+   {
        // Récupère l'utilisateur connecté
        $user = Auth::user();
        // Met à jour le statut de l'utilisateur à "hors-ligne" et enregistre la date de déconnexion
        $user->status_user = 'hors-ligne';
+       $user->mode_user =$request->input('mode');
+       $user->theme_user =$request->input('theme');
        $user->save(); // Enregistre les modifications
        // Déconnecte l'utilisateur et nettoie la session
        Auth::logout();
        Session::flush();
        $request->session()->invalidate();
-       $request->session()->regenerateToken();      
+       $request->session()->regenerateToken();
        // Redirige vers la page de connexion
-       return redirect()->route('auth.login'); 
+       return redirect()->route('auth.login');
    }
 }

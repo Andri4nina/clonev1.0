@@ -1,4 +1,4 @@
-<nav class=" w-full h-10 fixed top-0 left-0">
+<nav class=" w-full h-10 fixed top-0 left-0 Mynav">
     <div class="absolute top-5 left-5 menufritepos  cursor-pointer " onclick="showhidemenu() ">
         <div class="menuFrite " ">
 
@@ -8,7 +8,7 @@
   <div class="flex gap-10 justify-center items-center mt-5 mr-5 float-right usercontent">
 
       <div class=" flex gap-2 justify-center items-center text-sm font-bold ">
-        <div>
+        <div class="hidden sm:block">
           {{\Illuminate\Support\Facades\Auth::user()->name }}
         </div>
         <div>
@@ -25,8 +25,8 @@
 
 <aside class="fixed top-0 left-0  min-h-screen ">
   <div class="fixed top-0 left-0 p-6 flex justify-center items-center gap-2">
-    <div class="w-10 h-10 nopdpimg">
-      <img src="" alt="logo" class="w-full h-full">
+    <div class="w-10 h-10 ">
+      <img src="{{ asset('images/component/image/logo_court.png') }} " alt="logo" class="w-full h-full">
     </div>
     <div>
       <h3 class="text-base font-extrabold text-center ">Hope for a future <br>
@@ -90,8 +90,7 @@
               <a href="{{ route('message.index') }}" class="relative flex gap-3 items-center px-2 py-5 text-sm menu-link">
                 <i class="text-2xl menu-icon tf-icons bx bx-message-add"></i>
                 <div class="text-sm">Message</div>
-                <span class="text-white text-xs absolute right-2 bg-red-600 h-5 w-5 text-center rounded-full">25</span>
-              </a>
+                </a>
             </li>
             <li class="px-5 menu-item">
               <a href="{{ route('historique.index')}}" class="flex gap-3 items-center px-2 py-5 text-sm menu-link">
@@ -117,7 +116,7 @@
             <br>
             <li class="px-5 ">
               <span class="cursor-pointer mode flex gap-3 items-center px-2 py-5 text-sm menu-link">
-                <i class="text-blue-600 text-2xl menu-icon tf-icons bx bx-moon"></i>
+                <i class=" text-2xl menu-icon tf-icons bx "></i>
                 <div class="text-sm">Mode</div>
               </span>
             </li>
@@ -154,6 +153,8 @@
                 <form action="{{ route('auth.logout') }}" method="POST">
                   @method('delete')
                   @csrf
+                  <input type="hidden" name='mode' id="modeInput" value="">
+                  <input type="hidden" name='theme' id="themeInput" value="">
                   <button href="#deconnection" id="logoutButton" class="flex gap-3 items-center px-2 py-5 text-sm menu-link">
                     <i class="text-2xl menu-icon tf-icons bx bx-log-out"></i>
                     <div class="text-sm">Deconnexion</div>
@@ -173,56 +174,84 @@
     palette.classList.toggle('active');
   }
 </script>
-<script>
-  const mode = document.querySelector('.mode');
-  const modeIcon = document.querySelector('.mode i');
-  mode.addEventListener('click', () => {
-
-    document.body.classList.toggle('dark');
-
-    if (document.body.classList.contains('dark')) {
-      modeIcon.classList.add('bx-moon');
-      modeIcon.classList.remove('bx-sun');
-      modeIcon.classList.add('text-blue-600');
-      modeIcon.classList.remove('text-yellow-400');
-      localStorage.setItem('mode_user', 'dark');
-    } else {
-      localStorage.setItem('mode_user', 'light');
-      modeIcon.classList.add('bx-sun');
-      modeIcon.classList.remove('bx-moon');
-      modeIcon.classList.remove('text-blue-600');
-      modeIcon.classList.add('text-yellow-400');
-    }
-  });
-</script>
 
 
-<script>
-const colors = document.querySelectorAll('.pallete .colors');
 
-colors.forEach(color => {
-  color.addEventListener('click', () => {
-
-    const colorID = color.id;
-
-
-    document.body.classList.remove('bleu', 'rouge', 'vert', 'jaune', 'rose');
-    document.body.classList.add(colorID);
-  });
-});
-
-</script>
 
  <script>
-          // Récupérer les valeurs mode_user et theme_user
-          const modeUser = "{{ \Illuminate\Support\Facades\Auth::user()->mode_user }}";
-          const themeUser = "{{ \Illuminate\Support\Facades\Auth::user()->theme_user }}";
+    const modeInput = document.getElementById('modeInput');
 
-          // Stocker les valeurs dans le localStorage
-          localStorage.setItem('mode_user', modeUser);
-          localStorage.setItem('theme_user', themeUser);
-      </script>
-      <script>
+    // Récupérer le mode de l'utilisateur depuis le localStorage
+    const storedMode = localStorage.getItem('userMode');
+
+    // Appliquer le mode par défaut ou restaurer le mode depuis le localStorage
+    if (storedMode) {
+        document.body.classList.add(storedMode);
+        modeInput.value = storedMode;
+    } else {
+        const modeUser = "{{ auth()->user()->mode_user }}";
+        document.body.classList.add(modeUser);
+        localStorage.setItem('userMode', modeUser);
+        modeInput.value = storedMode;
+    }
+
+    // Sélectionner l'élément .mode
+    const mode = document.querySelector('.mode');
+    const modeIcon = document.querySelector('.mode i');
+
+    mode.addEventListener('click', () => {
+        // Basculer entre les classes dark et light
+        document.body.classList.toggle('dark');
+
+        // Mettre à jour le mode dans le localStorage et l'élément input hidden
+        if (document.body.classList.contains('dark')) {
+            modeIcon.classList.add('bx-moon');
+            modeIcon.classList.remove('bx-sun', 'text-yellow-400');
+            modeIcon.classList.add('text-blue-600');
+            modeInput.value = 'dark';
+            localStorage.setItem('userMode', 'dark');
+        } else {
+            modeIcon.classList.add('bx-sun');
+            modeIcon.classList.remove('bx-moon', 'text-blue-600');
+            modeIcon.classList.add('text-yellow-400');
+            modeInput.value = 'light';
+            localStorage.setItem('userMode', 'light');
+        }
+    });
+</script>
+
+
+
+
+<script>
+    const themeUser = "{{ auth()->user()->theme_user }}";
+
+    if (!localStorage.getItem('userTheme')) {
+        localStorage.setItem('userTheme', themeUser);
+    }
+
+    const themeInput = document.getElementById('themeInput');
+
+
+    const storedTheme = localStorage.getItem('userTheme');
+    document.body.classList.add(storedTheme);
+    themeInput.value = storedTheme;
+    const colors = document.querySelectorAll('.pallete .colors');
+
+    colors.forEach(color => {
+        color.addEventListener('click', () => {
+            const colorID = color.id;
+            document.body.classList.remove('bleu', 'rouge', 'vert', 'jaune', 'rose');
+            document.body.classList.add(colorID);
+            localStorage.setItem('userTheme', colorID);
+            themeInput.value= colorID;
+        });
+    });
+</script>
+
+
+
+<script>
 
         window.addEventListener('DOMContentLoaded', () => {
           const mode = document.querySelector('.mode');
@@ -250,7 +279,7 @@ colors.forEach(color => {
 
 
         });
-      </script>
+</script>
 
 <script>
     const aside = document.querySelector('aside');
@@ -264,6 +293,51 @@ colors.forEach(color => {
         menuPosition.classList.toggle('active');
     }
 </script>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const allMenuItems = document.querySelectorAll('.menu-item');
+        const storedIndex = localStorage.getItem('activeMenuItemIndex');
+        if (storedIndex !== null) {
+            allMenuItems.forEach((item, index) => {
+                item.classList.remove('active');
+                if (index == storedIndex) {
+                    item.classList.add('active');
+                }
+            });
+        } else {
+            allMenuItems[0].classList.add('active');
+        }
+        allMenuItems.forEach((item, index) => {
+            item.addEventListener('click', function () {
+                allMenuItems.forEach(item => item.classList.remove('active'));
+                this.classList.add('active');
+                localStorage.setItem('activeMenuItemIndex', index);
+            });
+        });
+    });
+</script>
+
+
+<script>
+    function updateBodyPosition() {
+        var body = document.body;
+        var positionTopRelativeToWindow = body.getBoundingClientRect().top;
+        const Mynav = document.querySelector('.Mynav');
+
+        if (positionTopRelativeToWindow <= -10) {
+            Mynav.classList.add('active');
+        } else {
+            Mynav.classList.remove('active');
+        }
+    }
+
+    window.addEventListener('scroll', updateBodyPosition);
+    updateBodyPosition();
+</script>
+
 </aside>
 
 
