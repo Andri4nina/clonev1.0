@@ -1,6 +1,6 @@
 <nav class=" w-full h-10 fixed top-0 left-0 Mynav">
-    <div class="absolute top-5 left-5 menufritepos  cursor-pointer " onclick="showhidemenu() ">
-        <div class="menuFrite " ">
+    <div class="absolute top-5 left-5 -translate-y-5 h-8  menufritepos  cursor-pointer " onclick="showhidemenu() ">
+        <div class="menuFrite  translate-y-5" >
 
         </div>
     </div>

@@ -1,10 +1,10 @@
 @extends('welcome')
 
 @section('content')
-<section>
+<section class="public-section">
     <h2 class="mb-5">Qui nous sommes?</h2>
     <p>
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit.
         Atque perferendis nemo vitae excepturi voluptate enim repellat iusto expedita.
          Illum hic animi ea quis aspernatur impedit omnis consequatur aut harum exercitationem.
     </p>
@@ -35,45 +35,11 @@
                 <div class="title"><b class="text-3xl">Activite pour les etudiant de l'EPP Soavinarivo</b><br><br><br></div>
                 </div>
         </div>
-     
-    </div> 
 
-    <h2 class="my-5">Notre historique</h2>
-    <div class="min-h-screen min-w-full relative">
-        <div class="relative flex justify-center pt-5">
-            <div class="rounded-xl  w-28 h-28 relative memberscases" id="Finaritra">
-                <img src="" alt="Finaritra" class="w-full h-full">
-            </div>
-        </div>
-        <div class="relative flex gap-44 justify-center pt-5">
-            <div class="rounded-xl  w-28 h-28 relative memberscases" id="Miary">
-                <img src="" alt="Miary" class="w-full h-full">
-            </div>
-            <div class="rounded-xl  w-28 h-28 relative memberscases" id="Sandy">
-                <img src="" alt="Sandy" class="w-full h-full">
-            </div>
-        </div>
-      
-        <div class="relative flex gap-44 justify-center pt-36">
-            <div class="rounded-xl  w-28 h-28 relative memberscases" id="Njara">
-                <img src="" alt="Njara" class="w-full h-full">
-            </div>
-            <div class="rounded-xl  w-28 h-28 relative memberscases" id="Mims">
-                <img src="" alt="Mims" class="w-full h-full">
-            </div>
-            <div class="grid grid-cols-1">
-                <div class="rounded-xl  w-28 h-28 relative memberscases" id="Ranto">
-                    <img src="" alt="Ranto" class="w-full h-full">
-                </div>
-
-                <div class="mt-16 rounded-xl  w-28 h-28 relative memberscases" id="Hasina">
-                    <img src="" alt="Hasina" class="w-full h-full">
-                </div>
-            </div>
-         
-            
-        </div>
     </div>
+
+    <h2 class="my-5">Notre orgagigramme</h2>
+
 
     <h2 class="my-5">Nos membres</h2>
 
@@ -81,14 +47,14 @@
 
         <div class="bounceslideInFromBottom w-full h-auto py-14 swiper-container ">
             <div class="swiper-wrapper">
-          
+
                 @foreach ($membre as $membres)
                     <div class="bg-center bg-cover w-96 h-96 swiper-slide">
                         <div class="w-full relative p-10 testimonial-Box">
                             <img src="{{asset( 'images/component/quote.png') }}" alt="" class="w-20 absolute top-5 right-7 quote">
                             <div class="testimonial-content">
                                 <p>
-                                    {{$membres->descri_membre}}
+                                    {!! $membres->descri_membre !!}}
                                 </p>
                                 <div class="flex items-center mt-5 details">
                                     <div class="relative w-16 h-16 rounded-full overflow-hidden mr-3 img-box">
@@ -104,12 +70,12 @@
                                 </div>
                             </div>
                         </div>
-                    </div>     
-                @endforeach   
-     
+                    </div>
+                @endforeach
+
             </div>
         </div>
-    </div> 
+    </div>
 </section>
 
 
@@ -119,29 +85,29 @@
 /* timeline card defilement */
    var viewportWidth, divWidth, tb;
    $(function() {
-       
+
        viewport = $('#container').innerWidth();
        tb = $('#thumbs');
        divWidth = tb.outerWidth();
-   
+
        $('#container').mousemove(function(e)
        {
      tb.css({left: ((viewport - divWidth)*((e.pageX / viewport).toFixed(3))).toFixed(1) +"px" });
         });
-   
+
    $('.history-block').on('click', function(){
      $('.history-block').css('width', '300px');
      $('.history-block').find('.title').css('width', '260px');
       $('.history-block .timeline').hide(300);
        $(this).css('width', '600px');
        $(this).find('.title').css('width', '500px');
-  
+
      $('#container').mousemove(function(e)
        {
          tb.css({left: ((viewport - divWidth-300)*((e.pageX / viewport).toFixed(3))).toFixed(1) + 300 + "px" });
          });
    });
-   
+
    $('.timeline ul li').on('click', function(){
        $(this).parent().blink();
    });
@@ -164,5 +130,5 @@
       },
 
     });
-  </script>  
+  </script>
 @endsection

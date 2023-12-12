@@ -1,7 +1,7 @@
 @extends('welcome')
 
 @section('content')
-<section class=" w-11/12 mx-auto">
+<section class=" public-section">
     <form action="{{ route('public.blog_reportage') }}" class="my-5">
         <div class="flex justify-center items-center relative">
             <button class="w-2/12 text-center btn-search"><span class="hidden sm:block">Rechercher</span>  <i class="block sm:hidden bx bx-search"></i></button>
@@ -13,7 +13,7 @@
     </form>
 
     <div class="relative w-full blog_reportage_container">
-        <h4 class="text-2xl my-5 font-semibold">Blogs</h4>
+        <h2 class="text-2xl my-5 font-semibold">Blogs</h2>
         <div class="flex flex-wrap md:flex-nowrap">
             @if(count($blogs) > 0)
                 @foreach ($blogs as $blog)
@@ -25,7 +25,7 @@
                                     <div class="blog-title">{{ $blog->titre_blog }}</div>
                                     <div class="blog-subtitle">{{ $blog->sous_titre_blog }}</div>
                                     <div class="blog-bar"></div>
-                                    <div class="blog-description">{{ $blog->contenu_blog }}</div>
+                                    <div class="blog-description">{!! $blog->contenu_blog !!}</div>
                                     <div class="blog-tagbox">
                                         <span class="blog-tag">{{ $blog->date_publi_blog }} </span>
                                         <span class="blog-tag">0 Commentaire(s)</span>
@@ -46,7 +46,7 @@
     </div>
 
     <div class="relative w-full blog_reportage_container">
-        <h4 class="text-2xl my-5 font-semibold">Reportages</h4>
+        <h2 class="text-2xl my-5 font-semibold">Reportages</h2>
 
         <div class="flex flex-wrap md:flex-nowrap">
                 @if(count($reportages) > 0)
@@ -59,7 +59,7 @@
                                         <div class="blog-title">{{ $blog->titre_blog }}</div>
                                         <div class="blog-subtitle">{{ $blog->sous_titre_blog }}</div>
                                         <div class="blog-bar"></div>
-                                        <div class="blog-description">{{ $blog->contenu_blog }}</div>
+                                        <div class="blog-description">{!! $blog->contenu_blog !!}</div>
                                         <div class="blog-tagbox">
                                             <span class="blog-tag">{{ $blog->date_publi_blog }} </span>
                                             <span class="blog-tag">0 Commentaire(s)</span>

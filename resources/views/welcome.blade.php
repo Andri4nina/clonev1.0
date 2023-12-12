@@ -14,11 +14,11 @@
 
 
 </head>
-<body class="">
+<body class="" >
     <header>
     {{ view('visiteur.navbar') }}
   </header>
-  <div class="mt-32">
+  <div class="" >
     @yield('content')
   </div>
   <div class="absolute">
