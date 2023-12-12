@@ -68,7 +68,6 @@ class PartController extends Controller
     {
        $request->validate([
             'partenaire-name' => 'required',
-            'partenaire-logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         $partenaire = new partenaire();

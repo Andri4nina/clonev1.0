@@ -33,16 +33,16 @@ use App\Http\Controllers\ViewsCounterController;
 
 /* Routes pour le public */
 Route::get('/', [PublicController::class, 'acceuil'])->name('public.acceuil');
-Route::get('/comm{id}ntZone', [PublicController::class, 'CommentPubliZone'])->name('public.comment');
-Route::post('/commntZone/comment', [CommentController::class,'storepublic'])->name('public.storecomment');
-
+Route::get('/public/comm{id}ntZone', [PublicController::class, 'CommentPubliZone'])->name('public.comment');
+Route::post('/public/commentZone/comment', [CommentController::class,'storepublic'])->name('public.storecomment');
+Route::get('/public/Blogzone', [PublicController::class,'blog_reportage'])->name('public.blog_reportage');
 Route::get('/public/domain', [PublicController::class, 'domain'])->name('public.domain');
 Route::get('/public/project', [PublicController::class, 'project'])->name('public.project');
+Route::get('/public/partenaire', [PublicController::class, 'partenaire'])->name('public.partenaire');
 Route::get('/public/about', [PublicController::class, 'about'])->name('public.about');
 Route::get('/public/don', [PublicController::class, 'don'])->name('public.don');
 
-/* Route::get('/public/comment{id}', [PublicController::class,'CommentPubliZone'])->name('public.comment');
-Route::post('/public/', [CommentController::class,'store'])->name('publicComment.store'); */
+
 
 
 

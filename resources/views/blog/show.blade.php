@@ -79,7 +79,7 @@
         </div>
 
         @if($blog->type_blog==='reportage'|| $blog->type_blog==='Reportage')
-        <div class="mb-5 mx-auto bounceInLeft max-w-5xl">
+        <div class="mb-5 mx-auto flex justify-center bounceInLeft max-w-5xl">
             <iframe width="560" height="315" src="{{ $blog->url_blog }}" frameborder="0" allowfullscreen></iframe>
         </div>
 

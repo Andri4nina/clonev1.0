@@ -16,7 +16,7 @@
             toast.addEventListener('mouseleave', Swal.resumeTimer)
             }
         })
-        
+
         Toast.fire({
             icon: 'success',
             title: '{{ $message }}'
@@ -27,11 +27,11 @@
     @endif
 
     <div class="bounceslideInFromLeft relative mb-5 mx-auto max-w-5xl  w-full h-80">
-        <img src="{{ asset('images/couv-blog/'.$blog->couv_blog )}}" alt="" class="absolute top-0 left-0 w-full h-full">
+        <img src="{{ asset('images/couv-blog/'.$blog->couv_blog )}}" alt="" class="absolute top-0 left-0 w-full h-full nophotocouv">
         <div class="text-5xl absolute bottom-3 font-semibold right-3" style="color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
             '{{ $blog->titre_blog }}'
         </div>
-        
+
     </div>
     <div class="max-w-5xl mx-auto bounceslideInFromRight">
         <h4 class="text-lg font-semibold">{{ $blog->titre_blog }}</h4>
@@ -41,7 +41,7 @@
         </p>
 
         <div class="galerie">
-       
+
             <div class="my-5 project-gallery">
                 <div class="image-accordion">
                     @foreach  ($photos as $key => $photo)
@@ -52,15 +52,15 @@
                     @endforeach
                 </div>
             </div>
-        </div>   
+        </div>
     </div>
 </div>
 
 @if($blog->type_blog==='reportage'|| $blog->type_blog==='Reportage')
-<div class="mb-5 mx-auto bounceInLeft max-w-5xl">
+<div class="mb-5 mx-auto flex justify-center bounceInLeft max-w-5xl">
     <iframe width="560" height="315" src="{{ $blog->url_blog }}" frameborder="0" allowfullscreen></iframe>
 </div>
-  
+
 @endif
 
 <div class="max-w-5xl mx-auto bounceslideInFromBottom h-96 blog-comment ">
@@ -91,7 +91,7 @@
                         <div class="p-5 w-8/12">
                             "{{ $com->libelle_com }}"
                         </div>
-                    </li>                       
+                    </li>
                 @else
                     <li class="mb-5 flex flex-row-reverse justify-center items-center blog-comment-card response">
                         <div class="h-full w-3/12 blog-visiteur">
@@ -116,7 +116,7 @@
                             "{{ $com->libelle_com }}"
                         </div>
                         <div class="w-1/12 flex">
-                        
+
                         </div>
                     </li>
                 @endif
@@ -141,13 +141,13 @@
                     toast.addEventListener('mouseleave', Swal.resumeTimer)
                   }
                 })
-                
+
                 Toast.fire({
                   icon: 'warning',
                   title: 'Veuillez remplir les champs obligatoires'
                 })
           </script>
-             
+
           @endif
             <div class="mb-5  flex justify-center items-center input-field">
                 <input type="text" name='nom_vis' placeholder="Votre nom" class="w-11/12   bg-none" value="{{ old('nom_vis') }}">
@@ -156,17 +156,17 @@
                 <input type="email" name='email_vis' placeholder="Votre adresse E-mail" class="w-11/12   bg-none" value="{{ old('email_vis') }}">
             </div>
 
-        
+
           <div class="mb-5  flex justify-center items-center input-field">
             <textarea name="contenu_com" id="" cols="30" rows="10" class="w-11/12 bg-none"> {{ old('contenu_com') }}</textarea>
           </div>
-          
+
           <div class="flex justify-end">
             <input type="hidden" name="hidden_id" value="{{$blog->id}}" >
             <button class=" bg-green-500 hover:bg-green-400 text-white" type="submit">Envoyer</button>
           </div>
-         
-        </form>  
+
+        </form>
     </div>
 </div>
 @endsection

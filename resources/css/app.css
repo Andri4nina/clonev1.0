@@ -401,168 +401,180 @@ input[type="checkbox"]:checked + label::before{
   ========================================================================== */
 
   /* ==========================================================================navbar========================================================================== */
-  .public_header{
-    height: 300px;
-    position: relative;
-    overflow: hidden;
-    display: flex;
+  .navpublic{
+    z-index: 2000;
+  }
+
+  .container_public{
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    width:100%;
+    height:600px;
+    padding:50px;
 }
 
-.couvertures {
-    display: flex;
-    width: calc(100%*3);
-    animation: carousel 0 linear infinite;
-    -webkit-animation: carousel 0 linear infinite;
+#slide{
+    width:max-content;
+    margin-top:50px;
 }
-
-.couverture {
-    flex: 1;
-    min-width: 100%;
-    height: 100%;
+.item{
+    width:200px;
+    height:300px;
+    background-position: 50% 50%;
+    display: inline-block;
+    transition: 0.5s;
     background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+    position: absolute;
+    z-index: 1;
+    top:50%;
+    transform: translate(0,-50%);
+    border-radius: 20px;
+    box-shadow:  0 30px 50px #505050;
+}
+.item:nth-child(1),
+.item:nth-child(2){
+    left:0;
+    top:0;
+    transform: translate(0,0);
+    border-radius: 0;
+    width:100%;
+    height:100%;
+    box-shadow: none;
+}
+.item:nth-child(3){
+    left:50%;
+}
+.item:nth-child(4){
+    left:calc(50% + 220px);
+}
+.item:nth-child(5){
+    left:calc(50% + 440px);
+}
+.item:nth-child(n+6){
+    left:calc(50% + 660px);
+    opacity: 0;
+}
+.item .content{
+    position: absolute;
+    top:50%;
+    left:100px;
+    width:300px;
+    text-align: left;
+    padding:0;
+    transform: translate(0,-50%);
+    display: none;
+    font-family: system-ui;
+}
+.item:nth-child(2) .content{
+    display: block;
+    z-index: 11111;
+}
+.item .name{
+    font-size: 40px;
+    font-weight: bold;
+    opacity: 0;
+    animation:showcontent 1s ease-in-out 1 forwards
+}
+.item .des{
+    margin:20px 0;
+    opacity: 0;
+    animation:showcontent 1s ease-in-out 0.3s 1 forwards
+}
+.item button{
+    padding:10px 20px;
+    border:none;
+    opacity: 0;
+    animation:showcontent 1s ease-in-out 0.6s 1 forwards
+}
+@keyframes showcontent{
+    from{
+        opacity: 0;
+        transform: translate(0,100px);
+        filter:blur(33px);
+    }to{
+        opacity: 1;
+        transform: translate(0,0);
+        filter:blur(0);
+    }
+}
+.buttons{
+    position: absolute;
+    bottom:30px;
+    z-index: 222222;
+    text-align: center;
+    width:100%;
+}
+.buttons button{
+    width:50px;
+    height:50px;
+    border-radius: 50%;
+    border:1px solid #555;
+    transition: 0.5s;
+}
+.buttons button:hover{
+    background-color: var(--skin--color1);
+    color: white;
 }
 
-.couverture1 {
-    background-image: url('../../public/images/component/image/couverture1.jpg');
+
+.nav-item-public{
+    cursor: pointer;
+    position: relative;
+    transition: .5s ease all;
+    -webkit-transition: .5s ease all;
+    -moz-transition: .5s ease all;
+    -ms-transition: .5s ease all;
+    -o-transition: .5s ease all;
+    padding: 12px 14px;
+    font-size:18px ;
+    font-weight: 600;
 }
 
-.couverture2 {
-  background-image: url('../../public/images/component/image/couverture2.jpg');
+.nav-item-public::before{
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 3px;
+    background-color: var(--skin--color1);
+    left: 0;
+    bottom: 0;
+    transition:.5s ease all;
+    -webkit-transition:.5s ease all;
+    -moz-transition:.5s ease all;
+    -ms-transition:.5s ease all;
+    -o-transition:.5s ease all;
 }
 
-.couverture3 {
-  background-image: url('../../public/images/component/image/couverture3.jpg');
+.nav-item-public:hover a{
+    color: var(--skin--color1);
+    transition: .5s ease all;
+    -webkit-transition: .5s ease all;
+    -moz-transition: .5s ease all;
+    -ms-transition: .5s ease all;
+    -o-transition: .5s ease all;
 }
-@media screen and (max-width: 767px) {
-  /* header */
-  .public_header{
-      height: 170px;
-      display: flex;
-      justify-content: center;
-  }
-}
-
-@keyframes carousel {
-  0% {
-      transform: translate(0);
-      -webkit-transform: translate(0);
-      -moz-transform: translate(0);
-      -ms-transform: translate(0);
-      -o-transform: translate(0);
-  }
-  20% {
-      transform: translate(0);
-      -webkit-transform: translate(0);
-      -moz-transform: translate(0);
-      -ms-transform: translate(0);
-      -o-transform: translate(0);
-  }
-
-  50% {
-      transform: translate(-100%);
-      -webkit-transform: translate(-100%);
-      -moz-transform: translate(-100%);
-      -ms-transform: translate(-100%);
-      -o-transform: translate(-100%);
-  }
-  70% {
-      transform: translate(-100%);
-      -webkit-transform: translate(-100%);
-      -moz-transform: translate(-100%);
-      -ms-transform: translate(-100%);
-      -o-transform: translate(-100%);
-  }
-
-  100% {
-      transform: translate(calc(-100% * 2));
-      -webkit-transform: translate(calc(-100% * 2));
-      -moz-transform: translate(calc(-100% * 2));
-      -ms-transform: translate(calc(-100% * 2));
-      -o-transform: translate(calc(-100% * 2));
-  }
+.nav-item-public.active::before,
+.nav-item-public:hover::before{
+    width: 100%;
+    transition:.5s ease all;
+    -webkit-transition:.5s ease all;
+    -moz-transition:.5s ease all;
+    -ms-transition:.5s ease all;
+    -o-transition:.5s ease all;
 }
 
-.public_nav{
-  display: flex;
-  justify-content: space-between;
-  width: calc(100% - 300px);
-  margin: auto;
-  position: sticky;
-  top: 50px;
-  transform: translateY(-50px);
-  -webkit-transform: translateY(-50px);
-  -moz-transform: translateY(-50px);
-  -ms-transform: translateY(-50px);
-  -o-transform: translateY(-50px);
-  z-index: 2;
+.nav-item-public.active a{
+    color: var(--skin--color1);
+    transition:.5s ease all;
+    -webkit-transition:.5s ease all;
+    -moz-transition:.5s ease all;
+    -ms-transition:.5s ease all;
+    -o-transition:.5s ease all;
 }
-
-.public_nav .fa, .public_nav .fa-regular, .public_nav .fas{
-  display: none;
-}
-
-.logo{
-  margin-top: 10px;
-  margin-left: 10px;
-  height: 150px;
-  position: absolute;
-  z-index: 1;
-}
-
-.logo img{
-  height: 100%;
-}
-
-.public_nav a{
-  flex: 1;
-  text-decoration: none;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  color: white;
-  border-radius: 20px;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  -ms-border-radius: 20px;
-  -o-border-radius: 20px;
-  background: var(--skin--color1);
-  backdrop-filter: blur(5px);
-  box-shadow: 0 5px 10px var(--text-info);
-  transition: ease-in-out .3s;
-  -webkit-transition: ease-in-out .3s;
-  -moz-transition: ease-in-out .3s;
-  -ms-transition: ease-in-out .3s;
-  -o-transition: ease-in-out .3s;
-}
-
-.public_nav a:hover, .public_nav a.active{
-  color: var(--skin--color2);
-  background-color: var(--menuFond);
-  transition: ease-in-out .3s;
-  -webkit-transition: ease-in-out .3s;
-  -moz-transition: ease-in-out .3s;
-  -ms-transition: ease-in-out .3s;
-  -o-transition: ease-in-out .3s;
-}
-.public_nav.dark a:hover, .public_nav.dark a.active{
-  background-color: var(--menuFondDark);
-  color: var(--themeMarronDark);
-}
-
-.public_nav li{
-  flex: 1;
-  list-style: none;
-  font-size: larger;
-  font-weight: bold;
-}
-
 
   /* ==========================================================================end navbar========================================================================== */
-/* ==========================================================================Partenaire========================================================================== */
-/* ==========================================================================end Partenaire========================================================================== */
 /* ==========================================================================Actualite========================================================================== */
 
   .Blogcard {
@@ -690,63 +702,136 @@ input[type="checkbox"]:checked + label::before{
 }
 /* ==========================================================================end Actualite========================================================================== */
 
-/* ==========================================================================Domaine========================================================================== */
-
-.domaine-card{
-  box-shadow: 5px 5px 10px var(--bg-light);
-  transition: ease .3s all;
+/* ==========================================================================Blogs========================================================================== */
+.Blogcard.list{
+    display: block;
+    height: 400px;
 }
-.domaine-card.dragged{
-  height: 850px;
-  transition: ease .3s all;
-}
-
-.illustration{
-  padding: 10px;
+.Blogcard.list .blog-textbox,
+.Blogcard.list .blog-img{
+    width: 100%;
 }
 
-
-.drag{
-  transform: translateY(-12px);
-  -webkit-transform: translateY(-12px);
-  -moz-transform: translateY(-12px);
-  -ms-transform: translateY(-12px);
-  -o-transform: translateY(-12px);
+.Blogcard.list .blog-textbox{
+    left: 50%;
+    top: 50%;
+    transform: translate(-40%,30%);
+    -webkit-transform: translate(-40%,30%);
+    -moz-transform: translate(-40%,30%);
+    -ms-transform: translate(-40%,30%);
+    -o-transform: translate(-40%,30%);
 }
 
-
-.drag i{
-  font-size: x-large;
-  transition: ease-in-out .3s;
-  -webkit-transition: ease-in-out .3s;
-  -moz-transition: ease-in-out .3s;
-  -ms-transition: ease-in-out .3s;
-  -o-transition: ease-in-out .3s;
+.Blogcard.list .blog-textbox::before,
+.Blogcard.list .blog-textbox::after{
+    display: none;
 }
 
-.drag i.dragged{
-  transform: rotate(180deg);
-  transition: ease-in-out .3s;
-  -webkit-transition: ease-in-out .3s;
-  -moz-transition: ease-in-out .3s;
-  -ms-transition: ease-in-out .3s;
-  -o-transition: ease-in-out .3s;
-  -webkit-transform: rotate(180deg);
-  -moz-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  -o-transform: rotate(180deg);
+.Blogcard.list .blog-tagbox{
+    transform: translateY(-100%);
+    -webkit-transform: translateY(-100%);
+    -moz-transform: translateY(-100%);
+    -ms-transform: translateY(-100%);
+    -o-transform: translateY(-100%);
 }
 
-.domaine-card h4{
-    letter-spacing: 1px;
+/* ==========================================================================end Blogs========================================================================== */
+/* ==========================================================================domaine d'intervention========================================================================== */
+.domain_card{
+    background-color: var(--bg-black-50);
+    padding: 12px 14px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    transition: .5s ease all;
+    -webkit-transition: .5s ease all;
+    -moz-transition: .5s ease all;
+    -ms-transition: .5s ease all;
+    -o-transition: .5s ease all;
 }
 
-/* ==========================================================================end Domaine========================================================================== */
-/* ==========================================================================Mission========================================================================== */
+.impactsection{
+    background-color: var(--bg-black-100);
+    transition: .5s ease all;
+    -webkit-transition: .5s ease all;
+    -moz-transition: .5s ease all;
+    -ms-transition: .5s ease all;
+    -o-transition: .5s ease all;
+}
+
+.impactcard{
+    position: relative;
+    overflow: hidden;
+    box-shadow:0px 0px 0px var(--skin--color1) ,0px 0px 0px var(--bg-light);
+    background: var(--skin--color1);
+    padding: 15px;
+    color: white;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    transition: .5s ease all;
+    z-index: 2;
+    -webkit-transition: .5s ease all;
+    -moz-transition: .5s ease all;
+    -ms-transition: .5s ease all;
+    -o-transition: .5s ease all;
+}
+
+.impactcard:hover{
+    transform: translateY(-10px);
+    box-shadow:0px 10px 20px var(--bg-light);
+    transition: .5s ease all;
+    -webkit-transition: .5s ease all;
+    -moz-transition: .5s ease all;
+    -ms-transition: .5s ease all;
+    -o-transition: .5s ease all;
+    -webkit-transform: translateY(-10px);
+    -moz-transform: translateY(-10px);
+    -ms-transform: translateY(-10px);
+    -o-transform: translateY(-10px);
+}
+
+.impactcard::before{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    content: '';
+    z-index: -1;
+    background:linear-gradient( to right,var(--skin--color2),var(--skin--color1)) ;
+    transition: .5s ease all;
+    -webkit-transition: .5s ease all;
+    -moz-transition: .5s ease all;
+    -ms-transition: .5s ease all;
+    -o-transition: .5s ease all;
+    transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+    -moz-transform: translateX(-100%);
+    -ms-transform: translateX(-100%);
+    -o-transform: translateX(-100%);
+}
+
+.impactcard:hover::before{
+    transform: translateX(0%);
+    -webkit-transform: translateX(0%);
+    -moz-transform: translateX(0%);
+    -ms-transform: translateX(0%);
+    -o-transform: translateX(0%);
+}
+
+/* ==========================================================================end domaine d'intervention========================================================================== */
+
+/* ==========================================================================partenaire list========================================================================== */
 
 
 
-/* ==========================================================================end Mission========================================================================== */
+
+/* ==========================================================================end partenaire list========================================================================== */
 
 /* ==========================================================================about========================================================================== */
 
@@ -825,409 +910,8 @@ padding: 30px 100px;
   transition: width 0.2s;
 }
 
-
-
-/* Orgenigramme */
-.memberscases{
-  background-color: var(--skin--color1);
-}
-.memberscases::before{
-  content: '';
-  height: 70px;
-  width: 5px;
-  background-color: var(--skin--color2);
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translate(-50%,100%);
-}
-
-.memberscases::after{
-  content: '';
-  height: 5px;
-  width: 90px;
-  background-color: var(--skin--color2);
-  position: absolute;
-  right: 0;
-  top: 50px;
-  transform: translate(100%,-50%);
-}
-
-#Sandy::before,
-#Finaritra::before{
-  height: 70px;
-}
-
-#Finaritra::after,
-#Hasina::after,
-#Hasina::before,
-#Miary::before{
-  display: none;
-}
-
-#Sandy::after{
-  left: 0;
-  top: 50px;
-  transform: translate(-100%,-50%);
-}
-
-#Mims::after,
-#Ranto::after,
-#Njara::after{
-  content: '';
-  height: 70px;
-  width: 5px;
-  background-color: var(--skin--color2);
-  position: absolute;
-  left: 50%;
-  top: 0;
-  transform: translate(-50%,-100%);
-}
-#Mims::before,
-#Njara::before{
-  height: 5px;
-  width: 293px;
-  background-color: var(--skin--color2);
-  position: absolute;
-  left: 54px;
-  top: -70px;
-  transform: translateY(-100%);
-}
 /* ==========================================================================end about========================================================================== */
 
-/* ==========================================================================don et soutien========================================================================== */
-.creditcardform-container .field-container:first-of-type {
-  grid-area: name;
-}
-
-.creditcardform-container .field-container:nth-of-type(2) {
-  grid-area: number;
-}
-
-.creditcardform-container .field-container:nth-of-type(3) {
-  grid-area: expiration;
-}
-
-.creditcardform-container .field-container:nth-of-type(4) {
-  grid-area: security;
-}
-
-.field-container input {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-.field-container {
-  position: relative;
-}
-
-.creditcardform-container {
-  display: grid;
-  grid-column-gap: 10px;
-  grid-template-columns: auto auto;
-  grid-template-rows: 90px 90px 90px;
-  grid-template-areas: "name name""number number""expiration security";
-  max-width: 400px;
-  padding: 20px;
-  color: var(--text-black-900);
-}
-
-
-.ccicon {
-  height: 38px;
-  position: absolute;
-  right: 6px;
-  top: calc(50% - 17px);
-  width: 60px;
-}
-/* CREDIT CARD IMAGE STYLING */
-.preload * {
-  -webkit-transition: none !important;
-  -moz-transition: none !important;
-  -ms-transition: none !important;
-  -o-transition: none !important;
-}
-
-.containercreditcard {
-  width: 100%;
-  max-width: 400px;
-  max-height: 251px;
-  height: 54vw;
-  padding: 20px;
-}
-
-#ccsingle {
-  position: absolute;
-  right: 15px;
-  top: 20px;
-}
-
-#ccsingle svg {
-  width: 100px;
-  max-height: 60px;
-}
-
-.creditcard svg#cardfront,
-.creditcard svg#cardback {
-  width: 100%;
-  -webkit-box-shadow: 1px 5px 6px 0px black;
-  box-shadow: 1px 5px 6px 0px black;
-  border-radius: 22px;
-}
-
-/* CHANGEABLE CARD ELEMENTS */
-.creditcard .lightcolor,
-.creditcard .darkcolor {
-    -webkit-transition: fill .5s;
-    transition: fill .5s;
-}
-
-.creditcard .lightblue {
-    fill: #03A9F4;
-}
-
-.creditcard .lightbluedark {
-    fill: #0288D1;
-}
-
-.creditcard .red {
-    fill: #ef5350;
-}
-
-.creditcard .reddark {
-    fill: #d32f2f;
-}
-
-.creditcard .purple {
-    fill: #ab47bc;
-}
-
-.creditcard .purpledark {
-    fill: #7b1fa2;
-}
-
-.creditcard .cyan {
-    fill: #26c6da;
-}
-
-.creditcard .cyandark {
-    fill: #0097a7;
-}
-
-.creditcard .green {
-    fill: #66bb6a;
-}
-
-.creditcard .greendark {
-    fill: #388e3c;
-}
-
-.creditcard .lime {
-    fill: #d4e157;
-}
-
-.creditcard .limedark {
-    fill: #afb42b;
-}
-
-.creditcard .yellow {
-    fill: #ffeb3b;
-}
-
-.creditcard .yellowdark {
-    fill: #f9a825;
-}
-
-.creditcard .orange {
-    fill: #ff9800;
-}
-
-.creditcard .orangedark {
-    fill: #ef6c00;
-}
-
-.creditcard .grey {
-    fill: #bdbdbd;
-}
-
-.creditcard .greydark {
-    fill: #616161;
-}
-/* FRONT OF CARD */
-#svgname {
-  text-transform: uppercase;
-}
-
-#cardfront .st2 {
-  fill: #FFFFFF;
-}
-
-#cardfront .st3 {
-  font-family: 'Source Code Pro', monospace;
-  font-weight: 600;
-}
-
-#cardfront .st4 {
-  font-size: 54.7817px;
-}
-
-#cardfront .st5 {
-  font-family: 'Source Code Pro', monospace;
-  font-weight: 400;
-}
-
-#cardfront .st6 {
-  font-size: 33.1112px;
-}
-
-#cardfront .st7 {
-  opacity: 0.6;
-  fill: #FFFFFF;
-}
-
-#cardfront .st8 {
-  font-size: 24px;
-}
-
-#cardfront .st9 {
-  font-size: 36.5498px;
-}
-
-#cardfront .st10 {
-  font-family: 'Source Code Pro', monospace;
-  font-weight: 300;
-}
-
-#cardfront .st11 {
-  font-size: 16.1716px;
-}
-
-#cardfront .st12 {
-  fill: #4C4C4C;
-}
-
-
-/* BACK OF CARD */
-#cardback .st0 {
-  fill: none;
-  stroke: #0F0F0F;
-  stroke-miterlimit: 10;
-}
-
-#cardback .st2 {
-  fill: #111111;
-}
-
-#cardback .st3 {
-  fill: #F2F2F2;
-}
-
-#cardback .st4 {
-  fill: #D8D2DB;
-}
-
-#cardback .st5 {
-  fill: #C4C4C4;
-}
-
-#cardback .st6 {
-  font-weight: 400;
-}
-
-#cardback .st7 {
-  font-size: 27px;
-}
-
-#cardback .st8 {
-  opacity: 0.6;
-}
-
-#cardback .st9 {
-  fill: #FFFFFF;
-}
-
-#cardback .st10 {
-  font-size: 24px;
-}
-
-#cardback .st11 {
-  fill: #EAEAEA;
-}
-
-
-
-#cardback .st13 {
-  font-size: 37.769px;
-}
-.containercreditcard {
-  perspective: 1000px;
-}
-
-.creditcard {
-  width: 100%;
-  max-width: 400px;
-  -webkit-transform-style: preserve-3d;
-  transform-style: preserve-3d;
-  transition: -webkit-transform 0.6s;
-  -webkit-transition: -webkit-transform 0.6s;
-  transition: transform 0.6s;
-  transition: transform 0.6s, -webkit-transform 0.6s;
-  cursor: pointer;
-}
-
-.creditcard .front,
-.creditcard .back {
-  position: absolute;
-  width: 100%;
-  max-width: 400px;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -webkit-font-smoothing: antialiased;
-
-}
-
-.creditcard .back {
-  -webkit-transform: rotateY(180deg);
-  transform: rotateY(180deg);
-}
-
-.creditcard.flipped {
-  -webkit-transform: rotateY(180deg);
-  transform: rotateY(180deg);
-}
-
-.suggest{
-  margin-bottom: 20px;
-  text-align: center;
-  padding: 20px;
-  font-size: 20px;
-  font-weight: 800;
-  cursor: pointer;
-  border-radius: 10px;
-  color: white;
-}
-.suggest:nth-child(3n-2){
-  background:linear-gradient(to right,red ,darkred);
-}
-.suggest:nth-child(3n-1){
-  background:linear-gradient(to right,blue ,darkblue);
-}
-.suggest:nth-child(3n){
-  background:linear-gradient(to right, green,darkgreen);
-}
-
-.suggest:nth-child(3n-2):hover{
-  background:linear-gradient(to left,darkred ,darkred);
-}
-.suggest:nth-child(3n-1):hover{
-  background:linear-gradient(to left,darkblue ,darkblue);
-}
-.suggest:nth-child(3n):hover{
-  background:linear-gradient(to left, darkgreen,darkgreen);
-}
-
-
-/* ==========================================================================end don et soutien========================================================================== */
 
    /* ==========================================================================
     user page
@@ -1547,11 +1231,11 @@ aside{
 
 /* ==========================================================================gestion project========================================================================== */
 .project-container {
+    background-color: var(--bg-black-100);
   max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
   border-radius: 10px;
-  background: linear-gradient(to right, var(--bg-black-100), var(--bg-black-100), var(--bg-black-100),var(--bg-black-100),  var(--skin--color1));
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   transition: background linear ease-in-out .2s, box-shadow linear ease-in-out .2s;
   -moz-transition: background linear ease-in-out .2s, box-shadow linear ease-in-out .2s;
@@ -1560,7 +1244,6 @@ aside{
 }
 
 .project-container:hover {
-  background: linear-gradient(to right, var(--bg-black-100), var(--skin--color1));
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
   transition: background linear ease-in-out .2s, box-shadow linear ease-in-out .2s;
   -moz-transition: background linear ease-in-out .2s, box-shadow linear ease-in-out .2s;
@@ -2196,7 +1879,6 @@ footer{
         display: block;
         height: 400px;
     }
-
     .blog-textbox,
     .blog-img{
         width: 100%;
@@ -2211,6 +1893,12 @@ footer{
         -ms-transform: translate(-40%,30%);
         -o-transform: translate(-40%,30%);
     }
+
+    .blog-textbox::before,
+    .blog-textbox::after{
+        display: none;
+    }
+
     .blog-tagbox{
         transform: translateY(-100%);
         -webkit-transform: translateY(-100%);
